@@ -26,8 +26,7 @@ const source = ref<SourceItem | null>(null)
 const isSubmitting = ref(false)
 const inputRef = ref<HTMLInputElement | null>(null)
 
-// Pipeline parameters
-const speed = ref(1.12)
+const speed = 1.12
 const keepMemes = ref(true)
 const uniquify = ref(true)
 
@@ -116,11 +115,11 @@ async function handleStart() {
 		if (source.value?.type === 'file') {
 			const res = await generationApi.startLocal({
 				filePath: source.value.path,
-				ttsBaseSpeed: speed.value,
+				ttsBaseSpeed: speed,
 				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
-				adaptTts: true,
+				adaptTts: false,
 			})
 			resetSource()
 			await store.loadProjects()
@@ -128,11 +127,11 @@ async function handleStart() {
 		} else if (source.value?.type === 'folder' && source.value.files?.length) {
 			const res = await generationApi.startBatch({
 				filePaths: source.value.files,
-				ttsBaseSpeed: speed.value,
+				ttsBaseSpeed: speed,
 				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
-				adaptTts: true,
+				adaptTts: false,
 			})
 			resetSource()
 			await store.loadProjects()
@@ -145,11 +144,11 @@ async function handleStart() {
 				title: 'Короткое видео',
 				author: '',
 				thumbnail: '',
-				ttsBaseSpeed: speed.value,
+				ttsBaseSpeed: speed,
 				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
-				adaptTts: true,
+				adaptTts: false,
 			})
 			resetSource()
 			await store.loadProjects()
@@ -339,29 +338,6 @@ onUnmounted(() => {
 			<!-- Нижняя строка: настройки и запуск -->
 			<div class="flex flex-wrap items-center justify-between gap-4 pt-1 text-xs">
 				<div class="flex flex-wrap items-center gap-5 text-[var(--text-secondary)]">
-					<!-- Скорость речи -->
-					<div class="flex items-center gap-1.5">
-						<span class="text-[11px] text-[var(--text-muted)]">Темп:</span>
-						<div class="flex items-center gap-1">
-							<button
-								v-for="s in [1.0, 1.12, 1.25]"
-								:key="s"
-								type="button"
-								@click="speed = s"
-								class="px-2.5 py-1 rounded-full text-xs font-medium border-none cursor-pointer transition-all active:scale-[0.96]"
-								:class="
-									speed === s
-										? 'bg-white text-[#0f0f0f]'
-										: 'bg-transparent text-[var(--text-secondary)] hover:text-white hover:bg-white/5'
-								"
-							>
-								{{ s }}x
-							</button>
-						</div>
-					</div>
-
-					<div class="h-3.5 w-px bg-white/10 hidden sm:block" />
-
 					<!-- Тумблеры с расшифровкой -->
 					<label
 						class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
