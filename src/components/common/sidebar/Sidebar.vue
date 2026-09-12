@@ -50,7 +50,7 @@ function navigateTo(name: string) {
 
 		<!-- Список навигации -->
 		<nav class="flex flex-col gap-1 w-full">
-			<!-- Очередь -->
+			<!-- Главная -->
 			<button
 				type="button"
 				@click="navigateTo('queue')"
@@ -61,17 +61,17 @@ function navigateTo(name: string) {
 						? 'bg-white text-[#0f0f0f] font-semibold'
 						: 'bg-transparent text-[var(--text-secondary)] hover:text-white hover:bg-white/5 font-medium',
 				]"
-				:title="isCollapsed ? 'Очередь' : undefined"
+				:title="isCollapsed ? 'Главная' : undefined"
 			>
 				<div class="flex items-center gap-3 min-w-0">
 					<Icon
-						name="list"
+						name="home"
 						class="w-4 h-4 shrink-0 transition-colors"
 						:class="
 							currentRoute === 'queue' || currentRoute === 'new' ? 'text-black' : 'text-white'
 						"
 					/>
-					<span v-if="!isCollapsed" class="truncate">Очередь</span>
+					<span v-if="!isCollapsed" class="truncate">Главная</span>
 				</div>
 
 				<!-- Бейдж количества -->

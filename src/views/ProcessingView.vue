@@ -79,7 +79,7 @@ onMounted(() => {
 					type="button"
 					@click="router.push({ name: 'queue' })"
 					class="p-2 -ml-2 rounded-full hover:bg-white/10 text-white bg-transparent border-none cursor-pointer transition-colors flex items-center justify-center shrink-0"
-					title="Назад к очереди"
+					title="Назад на главную"
 				>
 					<Icon name="arrow-left" class="w-4 h-4 text-white" />
 				</button>

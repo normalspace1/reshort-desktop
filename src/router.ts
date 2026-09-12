@@ -8,7 +8,7 @@ const router = createRouter({
 			path: '/queue',
 			name: 'queue',
 			component: () => import('@/views/QueueView.vue'),
-			meta: { title: 'Очередь' },
+			meta: { title: 'Главная' },
 		},
 		{
 			path: '/new',

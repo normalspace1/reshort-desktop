@@ -289,7 +289,7 @@ onMounted(() => {
 			"
 		>
 			<template #action v-if="!searchQuery">
-				<Button size="sm" @click="router.push({ name: 'queue' })"> Перейти в очередь </Button>
+				<Button size="sm" @click="router.push({ name: 'queue' })"> Перейти на главную </Button>
 			</template>
 		</EmptyState>
 	</div>
