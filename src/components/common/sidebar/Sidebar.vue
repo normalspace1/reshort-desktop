@@ -38,14 +38,6 @@ function navigateTo(name: string) {
 			>
 				<Icon name="menu" class="w-5 h-5 text-white" />
 			</button>
-
-			<!-- Название приложения (видно только при развернутом меню) -->
-			<span
-				v-if="!isCollapsed"
-				class="ml-2 text-sm font-semibold tracking-tight text-white truncate"
-			>
-				ReShort
-			</span>
 		</div>
 
 		<!-- Список навигации -->
