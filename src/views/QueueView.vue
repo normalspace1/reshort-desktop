@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
 import { filePickerApi, generationApi } from '@/api/projects'
-import { VideoThumbnail } from '@/components/common'
 import { Button, Icon, Switch } from '@/components/ui'
 import { STAGE_NAMES } from '@/constants/project'
 import { useProjectStore } from '@/stores/project'
@@ -182,10 +181,6 @@ const runningTasksCount = computed(
 
 const queuedTasksCount = computed(
 	() => activeTasks.value.filter((p) => p.status === 'queued').length,
-)
-
-const recentDoneTasks = computed(() =>
-	store.projects.filter((p) => p.status === 'done').slice(0, 4),
 )
 
 function getStageProgress(project: ProjectRecord): number {
@@ -501,47 +496,6 @@ onUnmounted(() => {
 							class="w-4 h-4 text-white opacity-70 group-hover:opacity-100 transition-opacity"
 						/>
 					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- 3. Недавние готовые результаты -->
-		<div v-if="recentDoneTasks.length > 0" class="flex flex-col gap-2.5">
-			<div class="flex items-center justify-between px-1">
-				<span class="text-xs font-medium text-[var(--text-secondary)]">Готовые видео</span>
-				<button
-					type="button"
-					@click="router.push({ name: 'history' })"
-					class="text-xs text-[var(--text-secondary)] hover:text-white bg-transparent border-none cursor-pointer p-0 transition-colors"
-				>
-					Весь контент →
-				</button>
-			</div>
-
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-				<div
-					v-for="done in recentDoneTasks"
-					:key="done.id"
-					@click="router.push({ name: 'result', params: { id: done.id } })"
-					class="flex items-center gap-3 p-2.5 rounded-2xl cursor-pointer transition-all hover:bg-[var(--bg-hover)] group"
-					style="background: var(--bg-secondary)"
-				>
-					<VideoThumbnail
-						:src="done.info?.thumbnail"
-						:duration="done.info?.duration"
-						:resolution="done.info?.resolution"
-						class="h-14"
-					/>
-					<div class="flex flex-col min-w-0 flex-1">
-						<span class="text-xs font-medium text-white truncate">
-							{{ done.info?.title || done.id }}
-						</span>
-						<span class="text-[11px] text-[var(--text-secondary)] mt-0.5"> Готово к экспорту </span>
-					</div>
-					<Icon
-						name="arrow-right"
-						class="w-4 h-4 text-white opacity-40 group-hover:opacity-100 mr-1 transition-opacity shrink-0"
-					/>
 				</div>
 			</div>
 		</div>
