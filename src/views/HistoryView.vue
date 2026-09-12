@@ -83,7 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 select-none">
+	<div class="w-full flex-1 flex flex-col max-w-5xl gap-6 select-none">
 		<!-- Унифицированный заголовок страницы -->
 		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 			<div>
