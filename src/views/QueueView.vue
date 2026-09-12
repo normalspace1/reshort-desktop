@@ -258,7 +258,7 @@ onUnmounted(() => {
 
 		<!-- 2. Очередь активных задач -->
 		<div v-if="activeTasks.length > 0" class="flex flex-col gap-2">
-			<span class="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider px-1">
+			<span class="text-xs font-medium text-[var(--text-secondary)] px-1">
 				В обработке ({{ activeTasks.length }})
 			</span>
 
@@ -272,7 +272,7 @@ onUnmounted(() => {
 				>
 					<div class="flex items-center justify-between">
 						<div class="flex items-center gap-3 min-w-0">
-							<FileVideoIcon class="w-4 h-4 text-[var(--accent)] shrink-0" />
+							<Icon name="video" class="w-4 h-4 text-[var(--accent)] shrink-0" />
 							<span class="text-xs font-medium text-white truncate">
 								{{ task.info?.title || task.id }}
 							</span>
@@ -308,9 +308,7 @@ onUnmounted(() => {
 		<!-- 3. Недавние готовые видео -->
 		<div v-if="recentDoneTasks.length > 0" class="flex flex-col gap-2">
 			<div class="flex items-center justify-between px-1">
-				<span class="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
-					Недавние
-				</span>
+				<span class="text-xs font-medium text-[var(--text-secondary)]"> Недавние </span>
 				<button
 					type="button"
 					@click="router.push({ name: 'history' })"

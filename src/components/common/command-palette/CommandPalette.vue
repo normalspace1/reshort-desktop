@@ -183,7 +183,7 @@ onUnmounted(() => {
 					class="text-[10px] font-mono px-1.5 py-0.5 rounded text-[var(--text-muted)]"
 					style="background: var(--bg-tertiary)"
 				>
-					ESC
+					Esc
 				</span>
 			</div>
 
