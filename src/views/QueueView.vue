@@ -29,7 +29,6 @@ const inputRef = ref<HTMLInputElement | null>(null)
 // Pipeline parameters
 const speed = ref(1.12)
 const keepMemes = ref(true)
-const burnSubtitles = ref(false)
 const uniquify = ref(true)
 
 function resetSource() {
@@ -118,7 +117,7 @@ async function handleStart() {
 			const res = await generationApi.startLocal({
 				filePath: source.value.path,
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: burnSubtitles.value,
+				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
 				adaptTts: true,
@@ -130,7 +129,7 @@ async function handleStart() {
 			const res = await generationApi.startBatch({
 				filePaths: source.value.files,
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: burnSubtitles.value,
+				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
 				adaptTts: true,
@@ -147,7 +146,7 @@ async function handleStart() {
 				author: '',
 				thumbnail: '',
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: burnSubtitles.value,
+				burnSubtitles: false,
 				keepMemes: keepMemes.value,
 				uniquify: uniquify.value,
 				adaptTts: true,
@@ -370,14 +369,6 @@ onUnmounted(() => {
 					>
 						<Switch v-model="keepMemes" />
 						<span class="text-xs">Фоновый звук</span>
-					</label>
-
-					<label
-						class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
-						title="Накладывает стильные субтитры прямо на видеоряд"
-					>
-						<Switch v-model="burnSubtitles" />
-						<span class="text-xs">Субтитры</span>
 					</label>
 
 					<label
