@@ -2,11 +2,9 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Icon } from '@/components/ui'
-import { useProjectStore } from '@/stores/project'
 
 const route = useRoute()
 const router = useRouter()
-const store = useProjectStore()
 
 const currentRoute = computed(() => route.name)
 
@@ -46,78 +44,42 @@ function navigateTo(name: string) {
 			<button
 				type="button"
 				@click="navigateTo('queue')"
-				class="w-full flex items-center rounded-xl border-none cursor-pointer transition-all text-xs text-left active:scale-[0.98] relative"
+				class="w-full flex items-center gap-3 rounded-xl border-none cursor-pointer transition-all text-xs text-left active:scale-[0.98]"
 				:class="[
-					isCollapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2.5',
+					isCollapsed ? 'justify-center p-2.5' : 'justify-start px-3 py-2.5',
 					currentRoute === 'queue' || currentRoute === 'new'
 						? 'bg-white text-[#0f0f0f] font-semibold'
 						: 'bg-transparent text-[var(--text-secondary)] hover:text-white hover:bg-white/5 font-medium',
 				]"
 				:title="isCollapsed ? 'Главная' : undefined"
 			>
-				<div class="flex items-center gap-3 min-w-0">
-					<Icon
-						name="home"
-						class="w-4 h-4 shrink-0 transition-colors"
-						:class="
-							currentRoute === 'queue' || currentRoute === 'new' ? 'text-black' : 'text-white'
-						"
-					/>
-					<span v-if="!isCollapsed" class="truncate">Главная</span>
-				</div>
-
-				<!-- Бейдж количества -->
-				<span
-					v-if="store.queueCount > 0"
-					class="font-mono font-bold shrink-0"
-					:class="[
-						isCollapsed
-							? 'absolute top-1.5 right-1.5 text-[9px] px-1 py-0.2 rounded-full leading-none'
-							: 'text-[10px] px-1.5 py-0.2 rounded-full ml-1',
-						currentRoute === 'queue' || currentRoute === 'new'
-							? 'bg-black/15 text-[#0f0f0f]'
-							: 'bg-white/15 text-white',
-					]"
-				>
-					{{ store.queueCount }}
-				</span>
+				<Icon
+					name="home"
+					class="w-4 h-4 shrink-0 transition-colors"
+					:class="currentRoute === 'queue' || currentRoute === 'new' ? 'text-black' : 'text-white'"
+				/>
+				<span v-if="!isCollapsed" class="truncate">Главная</span>
 			</button>
 
 			<!-- Контент -->
 			<button
 				type="button"
 				@click="navigateTo('history')"
-				class="w-full flex items-center rounded-xl border-none cursor-pointer transition-all text-xs text-left active:scale-[0.98] relative"
+				class="w-full flex items-center gap-3 rounded-xl border-none cursor-pointer transition-all text-xs text-left active:scale-[0.98]"
 				:class="[
-					isCollapsed ? 'justify-center p-2.5' : 'justify-between px-3 py-2.5',
+					isCollapsed ? 'justify-center p-2.5' : 'justify-start px-3 py-2.5',
 					currentRoute === 'history'
 						? 'bg-white text-[#0f0f0f] font-semibold'
 						: 'bg-transparent text-[var(--text-secondary)] hover:text-white hover:bg-white/5 font-medium',
 				]"
 				:title="isCollapsed ? 'Контент' : undefined"
 			>
-				<div class="flex items-center gap-3 min-w-0">
-					<Icon
-						name="video"
-						class="w-4 h-4 shrink-0 transition-colors"
-						:class="currentRoute === 'history' ? 'text-black' : 'text-white'"
-					/>
-					<span v-if="!isCollapsed" class="truncate">Контент</span>
-				</div>
-
-				<!-- Бейдж количества -->
-				<span
-					v-if="store.historyCount > 0"
-					class="font-mono font-bold shrink-0"
-					:class="[
-						isCollapsed
-							? 'absolute top-1.5 right-1.5 text-[9px] px-1 py-0.2 rounded-full leading-none'
-							: 'text-[10px] px-1.5 py-0.2 rounded-full ml-1',
-						currentRoute === 'history' ? 'bg-black/15 text-[#0f0f0f]' : 'bg-white/15 text-white',
-					]"
-				>
-					{{ store.historyCount }}
-				</span>
+				<Icon
+					name="video"
+					class="w-4 h-4 shrink-0 transition-colors"
+					:class="currentRoute === 'history' ? 'text-black' : 'text-white'"
+				/>
+				<span v-if="!isCollapsed" class="truncate">Контент</span>
 			</button>
 		</nav>
 	</aside>
