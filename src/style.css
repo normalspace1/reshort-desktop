@@ -30,14 +30,14 @@
 }
 
 :root {
-	/* Studio Obsidian & Solar Amber (Ultra Dark / Pitch Black Studio) */
-	--bg-primary: #000000;
-	--bg-sidebar: #000000;
-	--bg-secondary: #08090b;
-	--bg-tertiary: #0f1013;
-	--bg-elevated: #15161a;
-	--bg-hover: #1c1d22;
-	--bg-active: #23252c;
+	/* Studio Obsidian & Solar Amber (#050505 Base) */
+	--bg-primary: #050505;
+	--bg-sidebar: #050505;
+	--bg-secondary: #0d0d0d;
+	--bg-tertiary: #141414;
+	--bg-elevated: #1a1a1a;
+	--bg-hover: #202020;
+	--bg-active: #262626;
 
 	--border-default: transparent;
 	--border-subtle: transparent;
@@ -45,9 +45,9 @@
 	--border-divider: transparent;
 
 	--text-primary: #f3f4f6;
-	--text-secondary: #8a909d;
-	--text-muted: #525866;
-	--text-disabled: #2d313b;
+	--text-secondary: #8e8e93;
+	--text-muted: #545458;
+	--text-disabled: #2c2c2e;
 
 	/* Accent: Solar Amber / Analog Gold */
 	--accent: #f59e0b;
@@ -61,13 +61,13 @@
 	--button-primary-hover: #fbbf24;
 	--button-primary-active: #d97706;
 
-	--button-secondary-bg: #0f1013;
+	--button-secondary-bg: #141414;
 	--button-secondary-text: #f3f4f6;
-	--button-secondary-hover: #1c1d22;
+	--button-secondary-hover: #202020;
 
 	--button-ghost-bg: transparent;
-	--button-ghost-text: #8a909d;
-	--button-ghost-hover: #0f1013;
+	--button-ghost-text: #8e8e93;
+	--button-ghost-hover: #141414;
 
 	--success: #10b981;
 	--success-bg: rgba(16, 185, 129, 0.12);
@@ -100,11 +100,11 @@ body {
 	background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-	background: #15161a;
+	background: #1c1c1c;
 	border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-	background: #23252c;
+	background: #282828;
 }
 
 ::selection {
