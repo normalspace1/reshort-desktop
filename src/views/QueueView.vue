@@ -182,7 +182,25 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 pt-2 pb-8 select-none">
+	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 select-none">
+		<!-- Унифицированный заголовок страницы -->
+		<div class="flex items-center justify-between gap-4">
+			<div>
+				<h1 class="text-base font-semibold text-white tracking-tight m-0">Новый перевод</h1>
+				<p class="text-xs text-[var(--text-secondary)] mt-0.5 m-0">
+					Дубляж Shorts, Reels, TikTok и локальных видео
+				</p>
+			</div>
+			<div
+				v-if="activeTasks.length > 0"
+				class="flex items-center gap-2 text-xs text-[var(--text-secondary)]"
+			>
+				<span
+					>В обработке: <strong class="text-white">{{ activeTasks.length }}</strong></span
+				>
+			</div>
+		</div>
+
 		<!-- 1. Рабочая станция перевода -->
 		<div
 			class="w-full rounded-2xl p-5 flex flex-col gap-4 transition-all"

@@ -90,5 +90,7 @@ const formattedDuration = computed(() => {
 		>
 			<Icon name="play" class="w-5 h-5 text-white" />
 		</div>
+
+		<slot />
 	</div>
 </template>

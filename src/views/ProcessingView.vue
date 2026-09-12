@@ -3,6 +3,7 @@ import { computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { projectsApi } from '@/api/projects'
+import { VideoThumbnail } from '@/components/common'
 import { Button, Icon, Progress } from '@/components/ui'
 import { useProjectGeneration } from '@/composables/useProjectGeneration'
 import { STAGE_NAMES, STAGE_ORDER } from '@/constants/project'
@@ -70,126 +71,129 @@ onMounted(() => {
 </script>
 
 <template>
-	<div
-		class="w-full flex-1 flex flex-col max-w-xl mx-auto items-center justify-center gap-6 py-6 select-none"
-	>
-		<!-- Верхняя панель навигации -->
-		<div class="w-full flex items-center justify-between">
-			<button
-				type="button"
-				@click="router.push({ name: 'queue' })"
-				class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer transition-colors p-0"
-			>
-				<Icon name="arrow-left" class="w-3.5 h-3.5" />
-				<span>Очередь</span>
-			</button>
-
-			<span class="text-xs text-[var(--text-muted)] font-mono truncate max-w-xs">
-				{{ project?.info?.title || projectId }}
-			</span>
+	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 select-none">
+		<!-- Унифицированный заголовок страницы -->
+		<div class="flex items-center justify-between gap-4">
+			<div class="flex items-center gap-3 min-w-0">
+				<button
+					type="button"
+					@click="router.push({ name: 'queue' })"
+					class="p-2 -ml-2 rounded-full hover:bg-white/10 text-white bg-transparent border-none cursor-pointer transition-colors flex items-center justify-center shrink-0"
+					title="Назад к очереди"
+				>
+					<Icon name="arrow-left" class="w-4 h-4 text-white" />
+				</button>
+				<div class="min-w-0">
+					<h1 class="text-base font-semibold text-white tracking-tight m-0">Обработка видео</h1>
+					<p class="text-xs text-[var(--text-secondary)] mt-0.5 m-0 truncate">
+						{{ project?.info?.title || projectId }}
+					</p>
+				</div>
+			</div>
 
 			<button
 				type="button"
 				@click="openFolder"
-				class="text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
+				class="p-2 rounded-full hover:bg-white/10 text-white bg-transparent border-none cursor-pointer transition-colors flex items-center justify-center shrink-0"
 				title="Открыть папку с файлами"
 			>
-				<Icon name="folder" class="w-4 h-4" />
+				<Icon name="folder" class="w-4 h-4 text-white" />
 			</button>
 		</div>
 
-		<!-- 9:16 Вертикальное превью -->
-		<div
-			class="w-full max-w-[260px] aspect-[9/16] rounded-2xl overflow-hidden relative flex items-center justify-center shadow-lg"
-			style="background: var(--bg-secondary)"
-		>
-			<img
-				v-if="project?.info?.thumbnail"
-				:src="project.info.thumbnail"
-				class="w-full h-full object-cover"
-				:class="project?.status === 'running' ? 'opacity-40' : 'opacity-80'"
-			/>
-			<Icon v-else name="video" class="w-8 h-8 text-white" />
-
-			<!-- Анимированный спиннер во время обработки -->
-			<div
-				v-if="project?.status === 'running'"
-				class="absolute inset-0 flex flex-col items-center justify-center gap-2"
-			>
-				<Icon name="reload" class="w-7 h-7 animate-spin text-white" />
-			</div>
-
-			<!-- Иконка воспроизведения при готовности -->
-			<div
-				v-else-if="project?.status === 'done'"
-				class="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer"
-				@click="router.push({ name: 'result', params: { id: projectId } })"
-			>
-				<Icon
-					name="play"
-					class="w-14 h-14 text-white drop-shadow-xl transition-transform hover:scale-110"
-				/>
-			</div>
-		</div>
-
-		<!-- Статус и процент выполнения -->
-		<div class="w-full flex flex-col items-center gap-3 text-center">
-			<div class="flex items-center gap-2">
-				<span class="text-sm font-semibold text-white">
-					{{
-						project?.status === 'done'
-							? 'Готово'
-							: project?.current_stage
-								? STAGE_NAMES[project.current_stage as StageName]
-								: 'Обработка...'
-					}}
-				</span>
-				<span class="text-xs font-mono text-[var(--accent)]"> {{ overallProgress }}% </span>
-			</div>
-
-			<!-- Shadcn Progress bar -->
-			<div class="w-full max-w-sm">
-				<Progress :model-value="overallProgress" />
-			</div>
-
-			<!-- Горизонтальная цепочка этапов -->
-			<div class="flex items-center gap-1.5 mt-2 flex-wrap justify-center text-[10px] font-mono">
-				<template v-for="(stage, idx) in STAGE_ORDER" :key="stage">
-					<span
-						:class="{
-							'text-[var(--accent)] font-semibold': getStageState(project, stage) === 'running',
-							'text-white': getStageState(project, stage) === 'done',
-							'text-[var(--text-muted)]': getStageState(project, stage) === 'queued',
-						}"
+		<!-- Карточка процесса обработки -->
+		<div class="w-full max-w-md mx-auto flex flex-col items-center justify-center gap-6 py-4">
+			<!-- Адаптивное превью через VideoThumbnail -->
+			<div class="w-full max-w-[260px] relative">
+				<VideoThumbnail
+					:src="project?.info?.thumbnail"
+					:duration="project?.info?.duration"
+					:resolution="project?.info?.resolution"
+					:show-play-on-hover="false"
+					:show-duration="false"
+					class="w-full shadow-lg"
+				>
+					<!-- Анимированный спиннер во время обработки -->
+					<div
+						v-if="project?.status === 'running'"
+						class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2 z-10"
 					>
-						{{ STAGE_NAMES[stage] }}
-					</span>
-					<span v-if="idx < STAGE_ORDER.length - 1" class="text-[var(--text-disabled)]">·</span>
-				</template>
+						<Icon name="reload" class="w-7 h-7 animate-spin text-white" />
+					</div>
+
+					<!-- Иконка воспроизведения при готовности -->
+					<div
+						v-else-if="project?.status === 'done'"
+						class="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer z-10"
+						@click="router.push({ name: 'result', params: { id: projectId } })"
+					>
+						<Icon
+							name="play"
+							class="w-14 h-14 text-white drop-shadow-xl transition-transform hover:scale-110"
+						/>
+					</div>
+				</VideoThumbnail>
 			</div>
 
-			<span
-				v-if="project?.status === 'running'"
-				class="text-[11px] font-mono text-[var(--text-muted)] mt-1"
-			>
-				Осталось ~{{ estimatedRemainingSeconds }} сек
-			</span>
-		</div>
+			<!-- Статус и процент выполнения -->
+			<div class="w-full flex flex-col items-center gap-3 text-center">
+				<div class="flex items-center gap-2">
+					<span class="text-sm font-semibold text-white">
+						{{
+							project?.status === 'done'
+								? 'Готово'
+								: project?.current_stage
+									? STAGE_NAMES[project.current_stage as StageName]
+									: 'Обработка...'
+						}}
+					</span>
+					<span class="text-xs font-mono text-[var(--accent)]"> {{ overallProgress }}% </span>
+				</div>
 
-		<!-- Кнопки действий при завершении или ошибке -->
-		<div v-if="project?.status === 'done'" class="mt-2">
-			<Button @click="router.push({ name: 'result', params: { id: projectId } })" class="gap-2">
-				<span>Смотреть результат</span>
-				<Icon name="arrow-right" class="w-3.5 h-3.5" />
-			</Button>
-		</div>
+				<!-- Shadcn Progress bar -->
+				<div class="w-full max-w-sm">
+					<Progress :model-value="overallProgress" />
+				</div>
 
-		<div v-else-if="project?.status === 'failed'" class="flex items-center gap-3">
-			<span class="text-xs text-[#f87171] font-medium">Не удалось завершить</span>
-			<Button variant="secondary" size="sm" @click="handleRetry" class="gap-1.5">
-				<Icon name="reload" class="w-3.5 h-3.5" />
-				<span>Повторить</span>
-			</Button>
+				<!-- Горизонтальная цепочка этапов -->
+				<div class="flex items-center gap-1.5 mt-2 flex-wrap justify-center text-[10px] font-mono">
+					<template v-for="(stage, idx) in STAGE_ORDER" :key="stage">
+						<span
+							:class="{
+								'text-[var(--accent)] font-semibold': getStageState(project, stage) === 'running',
+								'text-white': getStageState(project, stage) === 'done',
+								'text-[var(--text-muted)]': getStageState(project, stage) === 'queued',
+							}"
+						>
+							{{ STAGE_NAMES[stage] }}
+						</span>
+						<span v-if="idx < STAGE_ORDER.length - 1" class="text-[var(--text-disabled)]">·</span>
+					</template>
+				</div>
+
+				<span
+					v-if="project?.status === 'running'"
+					class="text-[11px] font-mono text-[var(--text-muted)] mt-1"
+				>
+					Осталось ~{{ estimatedRemainingSeconds }} сек
+				</span>
+			</div>
+
+			<!-- Кнопки действий при завершении или ошибке -->
+			<div v-if="project?.status === 'done'" class="mt-2">
+				<Button @click="router.push({ name: 'result', params: { id: projectId } })" class="gap-2">
+					<span>Смотреть результат</span>
+					<Icon name="arrow-right" class="w-3.5 h-3.5" />
+				</Button>
+			</div>
+
+			<div v-else-if="project?.status === 'failed'" class="flex items-center gap-3">
+				<span class="text-xs text-[#f87171] font-medium">Не удалось завершить</span>
+				<Button variant="secondary" size="sm" @click="handleRetry" class="gap-1.5">
+					<Icon name="reload" class="w-3.5 h-3.5" />
+					<span>Повторить</span>
+				</Button>
+			</div>
 		</div>
 	</div>
 </template>

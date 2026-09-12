@@ -73,60 +73,70 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="w-full flex-1 flex flex-col max-w-5xl mx-auto gap-5 pt-2 pb-12 select-none px-4">
-		<!-- Верхняя строка управления: Поиск и Фильтры-пилюли в стиле YouTube Studio -->
-		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-			<!-- Поле поиска -->
-			<div class="relative w-full sm:w-72">
-				<Icon
-					name="search"
-					class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white pointer-events-none"
-				/>
-				<Input
-					v-model="searchQuery"
-					placeholder="Поиск по контенту..."
-					class="pl-10 h-9 rounded-full bg-[var(--bg-secondary)] border-none text-xs placeholder:text-[var(--text-muted)]"
-				/>
+	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 select-none">
+		<!-- Унифицированный заголовок страницы -->
+		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+			<div>
+				<h1 class="text-base font-semibold text-white tracking-tight m-0">Контент</h1>
+				<p class="text-xs text-[var(--text-secondary)] mt-0.5 m-0">
+					Все переведенные видео ({{ completedProjects.length }})
+				</p>
 			</div>
 
-			<!-- Фильтры-чипсы (YouTube Studio Filter Chips) -->
-			<div class="flex items-center gap-1.5 text-xs overflow-x-auto pb-1 sm:pb-0">
-				<button
-					type="button"
-					@click="selectedFilter = 'all'"
-					class="px-3.5 py-1.5 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
-					:class="
-						selectedFilter === 'all'
-							? 'bg-white text-[#0f0f0f]'
-							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
-					"
-				>
-					Все видео
-				</button>
-				<button
-					type="button"
-					@click="selectedFilter = 'done'"
-					class="px-3.5 py-1.5 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
-					:class="
-						selectedFilter === 'done'
-							? 'bg-white text-[#0f0f0f]'
-							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
-					"
-				>
-					Готовые
-				</button>
-				<button
-					type="button"
-					@click="selectedFilter = 'failed'"
-					class="px-3.5 py-1.5 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
-					:class="
-						selectedFilter === 'failed'
-							? 'bg-white text-[#0f0f0f]'
-							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
-					"
-				>
-					С ошибками
-				</button>
+			<!-- Поиск и Фильтры-пилюли в стиле YouTube Studio -->
+			<div class="flex items-center gap-2.5">
+				<!-- Поле поиска -->
+				<div class="relative w-44 sm:w-52">
+					<Icon
+						name="search"
+						class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white pointer-events-none opacity-60"
+					/>
+					<Input
+						v-model="searchQuery"
+						placeholder="Поиск..."
+						class="pl-8.5 h-8 rounded-full bg-white/5 border-none text-xs placeholder:text-[var(--text-muted)] text-white focus-visible:ring-0"
+					/>
+				</div>
+
+				<!-- Фильтры-чипсы (YouTube Studio Filter Chips) -->
+				<div class="flex items-center gap-1.5 text-xs">
+					<button
+						type="button"
+						@click="selectedFilter = 'all'"
+						class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
+						:class="
+							selectedFilter === 'all'
+								? 'bg-white text-[#0f0f0f]'
+								: 'bg-white/5 text-[var(--text-secondary)] hover:text-white hover:bg-white/10'
+						"
+					>
+						Все
+					</button>
+					<button
+						type="button"
+						@click="selectedFilter = 'done'"
+						class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
+						:class="
+							selectedFilter === 'done'
+								? 'bg-white text-[#0f0f0f]'
+								: 'bg-white/5 text-[var(--text-secondary)] hover:text-white hover:bg-white/10'
+						"
+					>
+						Готовые
+					</button>
+					<button
+						type="button"
+						@click="selectedFilter = 'failed'"
+						class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all shrink-0"
+						:class="
+							selectedFilter === 'failed'
+								? 'bg-white text-[#0f0f0f]'
+								: 'bg-white/5 text-[var(--text-secondary)] hover:text-white hover:bg-white/10'
+						"
+					>
+						Ошибки
+					</button>
+				</div>
 			</div>
 		</div>
 

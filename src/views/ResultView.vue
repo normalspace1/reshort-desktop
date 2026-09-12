@@ -50,68 +50,73 @@ onMounted(() => {
 </script>
 
 <template>
-	<div
-		class="w-full flex-1 flex flex-col max-w-md mx-auto items-center justify-center gap-5 py-4 select-none"
-	>
-		<!-- Верхняя панель -->
-		<div class="w-full flex items-center justify-between">
-			<button
-				type="button"
-				@click="router.push({ name: 'history' })"
-				class="flex items-center gap-1.5 text-xs text-white hover:opacity-80 bg-transparent border-none cursor-pointer transition-colors p-0"
-			>
-				<Icon name="arrow-left" class="w-3.5 h-3.5 text-white" />
-				<span>Контент</span>
-			</button>
-
-			<span class="text-xs text-[var(--text-muted)] font-mono truncate max-w-[200px]">
-				{{ project?.info?.title || projectId }}
-			</span>
+	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 select-none">
+		<!-- Унифицированный заголовок страницы -->
+		<div class="flex items-center justify-between gap-4">
+			<div class="flex items-center gap-3 min-w-0">
+				<button
+					type="button"
+					@click="router.push({ name: 'history' })"
+					class="p-2 -ml-2 rounded-full hover:bg-white/10 text-white bg-transparent border-none cursor-pointer transition-colors flex items-center justify-center shrink-0"
+					title="Назад к контенту"
+				>
+					<Icon name="arrow-left" class="w-4 h-4 text-white" />
+				</button>
+				<div class="min-w-0">
+					<h1 class="text-base font-semibold text-white tracking-tight m-0">Готовое видео</h1>
+					<p class="text-xs text-[var(--text-secondary)] mt-0.5 m-0 truncate">
+						{{ project?.info?.title || projectId }}
+					</p>
+				</div>
+			</div>
 
 			<button
 				type="button"
 				@click="openFolder"
-				class="text-white hover:opacity-80 bg-transparent border-none cursor-pointer p-0"
+				class="p-2 rounded-full hover:bg-white/10 text-white bg-transparent border-none cursor-pointer transition-colors flex items-center justify-center shrink-0"
 				title="Показать в проводнике"
 			>
 				<Icon name="folder" class="w-4 h-4 text-white" />
 			</button>
 		</div>
 
-		<!-- 9:16 Вертикальный фрейм плеера (переиспользуемый VideoPlayer) -->
-		<div
-			v-if="!videoUrl && isLoadingVideo"
-			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
-		>
-			<Icon name="video" class="w-8 h-8 text-white" />
-			<span class="text-xs">Загрузка видео...</span>
-		</div>
-		<VideoPlayer v-else-if="videoUrl" :src="videoUrl" />
-		<div
-			v-else
-			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
-		>
-			<Icon name="video" class="w-8 h-8 text-white" />
-			<span class="text-xs">Файл видео не найден</span>
-		</div>
-
-		<!-- Действия: Скачать MP4 / Новый дубляж (Shadcn Buttons) -->
-		<div class="flex items-center gap-2 w-full max-w-[280px]">
-			<a v-if="videoUrl" :href="videoUrl" download="dubbed.mp4" class="flex-1 no-underline">
-				<Button class="w-full gap-2">
-					<Icon name="download" class="w-3.5 h-3.5 text-black" />
-					<span>Скачать MP4</span>
-				</Button>
-			</a>
-
-			<Button
-				variant="secondary"
-				size="icon"
-				@click="router.push({ name: 'queue' })"
-				title="Перевести новое видео"
+		<!-- Карточка плеера и скачивания (по центру) -->
+		<div class="w-full max-w-md mx-auto flex flex-col items-center justify-center gap-5 py-4">
+			<!-- 9:16 Вертикальный фрейм плеера (переиспользуемый VideoPlayer) -->
+			<div
+				v-if="!videoUrl && isLoadingVideo"
+				class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
 			>
-				<Icon name="reload" class="w-4 h-4 text-white" />
-			</Button>
+				<Icon name="video" class="w-8 h-8 text-white" />
+				<span class="text-xs">Загрузка видео...</span>
+			</div>
+			<VideoPlayer v-else-if="videoUrl" :src="videoUrl" />
+			<div
+				v-else
+				class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
+			>
+				<Icon name="video" class="w-8 h-8 text-white" />
+				<span class="text-xs">Файл видео не найден</span>
+			</div>
+
+			<!-- Действия: Скачать MP4 / Новый дубляж (Shadcn Buttons) -->
+			<div class="flex items-center gap-2 w-full max-w-[280px]">
+				<a v-if="videoUrl" :href="videoUrl" download="dubbed.mp4" class="flex-1 no-underline">
+					<Button class="w-full gap-2">
+						<Icon name="download" class="w-3.5 h-3.5 text-black" />
+						<span>Скачать MP4</span>
+					</Button>
+				</a>
+
+				<Button
+					variant="secondary"
+					size="icon"
+					@click="router.push({ name: 'queue' })"
+					title="Перевести новое видео"
+				>
+					<Icon name="reload" class="w-4 h-4 text-white" />
+				</Button>
+			</div>
 		</div>
 	</div>
 </template>
