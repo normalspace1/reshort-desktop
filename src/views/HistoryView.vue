@@ -46,15 +46,21 @@ function formatDate(dateStr?: string): string {
 	}
 }
 
-async function handleDelete(id: string, e: Event) {
+const deletingId = ref<string | null>(null)
+
+function handleDeleteClick(id: string, e: Event) {
 	e.stopPropagation()
-	if (confirm('Удалить видео и связанные файлы?')) {
-		try {
-			await store.deleteProject(id)
-			toast.success('Видео удалено')
-		} catch (err) {
-			toast.error('Не удалось удалить видео')
-		}
+	deletingId.value = id
+}
+
+async function confirmDelete(id: string, e: Event) {
+	e.stopPropagation()
+	deletingId.value = null
+	try {
+		await store.deleteProject(id)
+		toast.success('Видео удалено')
+	} catch (err) {
+		toast.error('Не удалось удалить видео')
 	}
 }
 
@@ -210,26 +216,47 @@ onMounted(() => {
 						{{ formatDate(p.created_at) }}
 					</div>
 
-					<!-- Колонка действий (появляется при наведении) -->
+					<!-- Колонка действий (появляется при наведении или при подтверждении удаления) -->
 					<div
-						class="col-span-2 sm:col-span-1 flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+						class="col-span-2 sm:col-span-1 flex items-center justify-end gap-1 transition-opacity"
+						:class="deletingId === p.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
 					>
-						<button
-							type="button"
-							@click="handleOpenFolder(p.id, $event)"
-							class="p-1.5 rounded-full text-white hover:bg-white/15 bg-transparent border-none cursor-pointer transition-colors"
-							title="Показать в проводнике"
-						>
-							<Icon name="folder" class="w-3.5 h-3.5 text-white" />
-						</button>
-						<button
-							type="button"
-							@click="handleDelete(p.id, $event)"
-							class="p-1.5 rounded-full text-white hover:bg-white/15 bg-transparent border-none cursor-pointer transition-colors"
-							title="Удалить"
-						>
-							<Icon name="delete" class="w-3.5 h-3.5 text-white" />
-						</button>
+						<template v-if="deletingId === p.id">
+							<button
+								type="button"
+								@click="confirmDelete(p.id, $event)"
+								class="px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 text-[11px] font-medium border-none cursor-pointer transition-colors"
+								title="Подтвердить удаление"
+							>
+								Да
+							</button>
+							<button
+								type="button"
+								@click.stop="deletingId = null"
+								class="px-2 py-0.5 rounded-full bg-white/10 text-[var(--text-secondary)] hover:text-white text-[11px] font-medium border-none cursor-pointer transition-colors"
+								title="Отмена"
+							>
+								Нет
+							</button>
+						</template>
+						<template v-else>
+							<button
+								type="button"
+								@click="handleOpenFolder(p.id, $event)"
+								class="p-1.5 rounded-full text-white hover:bg-white/15 bg-transparent border-none cursor-pointer transition-colors"
+								title="Показать в проводнике"
+							>
+								<Icon name="folder" class="w-3.5 h-3.5 text-white" />
+							</button>
+							<button
+								type="button"
+								@click="handleDeleteClick(p.id, $event)"
+								class="p-1.5 rounded-full text-white hover:bg-white/15 bg-transparent border-none cursor-pointer transition-colors"
+								title="Удалить"
+							>
+								<Icon name="delete" class="w-3.5 h-3.5 text-white" />
+							</button>
+						</template>
 					</div>
 				</div>
 			</div>

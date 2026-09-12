@@ -147,7 +147,7 @@ onMounted(() => {
 									: 'Обработка...'
 						}}
 					</span>
-					<span class="text-xs font-mono text-[var(--accent)]"> {{ overallProgress }}% </span>
+					<span class="text-xs font-mono text-white font-medium"> {{ overallProgress }}% </span>
 				</div>
 
 				<!-- Shadcn Progress bar -->
@@ -160,8 +160,9 @@ onMounted(() => {
 					<template v-for="(stage, idx) in STAGE_ORDER" :key="stage">
 						<span
 							:class="{
-								'text-[var(--accent)] font-semibold': getStageState(project, stage) === 'running',
-								'text-white': getStageState(project, stage) === 'done',
+								'text-white font-semibold animate-pulse':
+									getStageState(project, stage) === 'running',
+								'text-white/80': getStageState(project, stage) === 'done',
 								'text-[var(--text-muted)]': getStageState(project, stage) === 'queued',
 							}"
 						>
@@ -177,20 +178,37 @@ onMounted(() => {
 				>
 					Осталось ~{{ estimatedRemainingSeconds }} сек
 				</span>
+
+				<!-- Статус фоновой работы (психологический комфорт) -->
+				<div
+					v-if="project?.status === 'running'"
+					class="flex items-center gap-2 px-3.5 py-1.5 mt-2 rounded-full bg-white/5 text-[11px] text-[var(--text-secondary)] select-none"
+				>
+					<Icon name="info" class="w-3.5 h-3.5 text-white opacity-60 shrink-0" />
+					<span>Фоновый процесс: можно ставить следующие видео в очередь</span>
+				</div>
 			</div>
 
 			<!-- Кнопки действий при завершении или ошибке -->
 			<div v-if="project?.status === 'done'" class="mt-2">
-				<Button @click="router.push({ name: 'result', params: { id: projectId } })" class="gap-2">
+				<Button
+					@click="router.push({ name: 'result', params: { id: projectId } })"
+					class="gap-2 active:scale-[0.98] transition-transform"
+				>
 					<span>Смотреть результат</span>
-					<Icon name="arrow-right" class="w-3.5 h-3.5" />
+					<Icon name="arrow-right" class="w-3.5 h-3.5 text-black" />
 				</Button>
 			</div>
 
 			<div v-else-if="project?.status === 'failed'" class="flex items-center gap-3">
 				<span class="text-xs text-[#f87171] font-medium">Не удалось завершить</span>
-				<Button variant="secondary" size="sm" @click="handleRetry" class="gap-1.5">
-					<Icon name="reload" class="w-3.5 h-3.5" />
+				<Button
+					variant="secondary"
+					size="sm"
+					@click="handleRetry"
+					class="gap-1.5 active:scale-[0.98] transition-transform"
+				>
+					<Icon name="reload" class="w-3.5 h-3.5 text-white" />
 					<span>Повторить</span>
 				</Button>
 			</div>

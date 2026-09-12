@@ -81,6 +81,29 @@ async function handlePickFolder() {
 	}
 }
 
+async function handlePaste() {
+	try {
+		const text = await navigator.clipboard.readText()
+		if (text && text.trim()) {
+			url.value = text.trim()
+			inputRef.value?.focus()
+		} else {
+			toast.info('Буфер обмена пуст')
+		}
+	} catch {
+		inputRef.value?.focus()
+	}
+}
+
+const urlValidation = computed(() => {
+	if (!url.value || !url.value.trim()) return null
+	const res = validateVideoUrl(url.value)
+	if (!res.isValid) {
+		return 'Поддерживаются ссылки YouTube Shorts, TikTok, Instagram Reels или VK'
+	}
+	return null
+})
+
 const canStart = computed(() => {
 	if (isSubmitting.value) return false
 	if (source.value) return true
@@ -237,7 +260,7 @@ onUnmounted(() => {
 				<!-- Ввод ссылки (Shorts / Reels / TikTok) -->
 				<div
 					v-else
-					class="flex items-center gap-2.5 flex-1 min-w-0 px-3.5 py-2 rounded-xl bg-white/5"
+					class="flex items-center gap-2.5 flex-1 min-w-0 px-3.5 py-2 rounded-xl bg-white/5 focus-within:ring-1 focus-within:ring-white/20 transition-all"
 				>
 					<Icon name="search" class="w-4 h-4 text-white shrink-0 opacity-70" />
 					<input
@@ -247,6 +270,29 @@ onUnmounted(() => {
 						placeholder="Вставьте ссылку Shorts, Reels, TikTok или выберите файл..."
 						class="w-full bg-transparent border-none outline-none text-xs text-white placeholder:text-[var(--text-muted)]"
 					/>
+
+					<!-- Быстрая вставка из буфера если поле пустое -->
+					<button
+						v-if="!url"
+						type="button"
+						@click="handlePaste"
+						class="px-2 py-0.5 rounded-lg text-[11px] font-medium text-[var(--text-secondary)] hover:text-white hover:bg-white/10 bg-transparent border-none cursor-pointer transition-colors shrink-0 flex items-center gap-1 active:scale-[0.97]"
+						title="Вставить из буфера (⌘V)"
+					>
+						<Icon name="copy" class="w-3 h-3 text-white opacity-75" />
+						<span>Вставить</span>
+					</button>
+
+					<!-- Очистить поле если есть текст -->
+					<button
+						v-else
+						type="button"
+						@click="url = ''"
+						class="p-0.5 hover:opacity-80 text-white bg-transparent border-none cursor-pointer shrink-0"
+						title="Очистить поле"
+					>
+						<Icon name="close" class="w-3.5 h-3.5 text-white opacity-70" />
+					</button>
 				</div>
 
 				<!-- Кнопки выбора файлов -->
@@ -254,7 +300,7 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFile"
-						class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-all active:scale-[0.98]"
 						title="Выбрать файл (⌘O)"
 					>
 						<Icon name="video" class="w-3.5 h-3.5 text-white" />
@@ -263,13 +309,22 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFolder"
-						class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-all active:scale-[0.98]"
 						title="Выбрать папку (⌘⇧O)"
 					>
 						<Icon name="folder" class="w-3.5 h-3.5 text-white" />
 						<span>Папка</span>
 					</button>
 				</div>
+			</div>
+
+			<!-- Подсказка валидации ссылки -->
+			<div
+				v-if="urlValidation"
+				class="text-[11px] text-[#f87171] -mt-1 px-1 flex items-center gap-1.5"
+			>
+				<Icon name="info" class="w-3.5 h-3.5 text-[#f87171] shrink-0" />
+				<span>{{ urlValidation }}</span>
 			</div>
 
 			<!-- Нижняя строка: настройки и запуск -->
@@ -284,7 +339,7 @@ onUnmounted(() => {
 								:key="s"
 								type="button"
 								@click="speed = s"
-								class="px-2.5 py-1 rounded-full text-xs font-medium border-none cursor-pointer transition-all"
+								class="px-2.5 py-1 rounded-full text-xs font-medium border-none cursor-pointer transition-all active:scale-[0.96]"
 								:class="
 									speed === s
 										? 'bg-white text-[#0f0f0f]'
@@ -298,18 +353,27 @@ onUnmounted(() => {
 
 					<div class="h-3.5 w-px bg-white/10 hidden sm:block" />
 
-					<!-- Тумблеры -->
-					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+					<!-- Тумблеры с расшифровкой -->
+					<label
+						class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+						title="Сохраняет оригинальную музыку, смех и звуковые эффекты под русской речью"
+					>
 						<Switch v-model="keepMemes" />
 						<span class="text-xs">Фоновый звук</span>
 					</label>
 
-					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+					<label
+						class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+						title="Накладывает стильные субтитры прямо на видеоряд"
+					>
 						<Switch v-model="burnSubtitles" />
 						<span class="text-xs">Субтитры</span>
 					</label>
 
-					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+					<label
+						class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+						title="Микро-модификация частот звука и кадров для защиты от теневых банов и повторного контента"
+					>
 						<Switch v-model="uniquify" />
 						<span class="text-xs">Антидетект</span>
 					</label>
@@ -317,7 +381,11 @@ onUnmounted(() => {
 
 				<!-- Кнопка запуска -->
 				<div class="ml-auto">
-					<Button :disabled="!canStart" @click="handleStart" class="px-5 h-9 font-medium gap-2">
+					<Button
+						:disabled="!canStart"
+						@click="handleStart"
+						class="px-5 h-9 font-medium gap-2 active:scale-[0.98] transition-transform"
+					>
 						<Icon v-if="isSubmitting" name="reload" class="w-4 h-4 animate-spin text-black" />
 						<Icon v-else name="play" class="w-4 h-4 text-black" />
 						<span>{{

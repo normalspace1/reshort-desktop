@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 import { projectsApi } from '@/api/projects'
 import { VideoPlayer } from '@/components/common'
 import { Button, Icon } from '@/components/ui'
@@ -41,6 +42,22 @@ async function openFolder() {
 		await projectsApi.openFolder(projectId.value)
 	} catch (e) {
 		console.error('open_project_folder:', e)
+	}
+}
+
+const isCopied = ref(false)
+
+async function handleCopyLink() {
+	if (!videoUrl.value) return
+	try {
+		await navigator.clipboard.writeText(videoUrl.value)
+		isCopied.value = true
+		toast.success('Ссылка на видео скопирована')
+		setTimeout(() => {
+			isCopied.value = false
+		}, 2000)
+	} catch {
+		toast.error('Не удалось скопировать')
 	}
 }
 
@@ -99,19 +116,31 @@ onMounted(() => {
 				<span class="text-xs">Файл видео не найден</span>
 			</div>
 
-			<!-- Действия: Скачать MP4 / Новый дубляж (Shadcn Buttons) -->
+			<!-- Действия: Скачать MP4 / Копировать ссылку / Новый дубляж -->
 			<div class="flex items-center gap-2 w-full max-w-[280px]">
 				<a v-if="videoUrl" :href="videoUrl" download="dubbed.mp4" class="flex-1 no-underline">
-					<Button class="w-full gap-2">
+					<Button class="w-full gap-2 active:scale-[0.98] transition-transform">
 						<Icon name="download" class="w-3.5 h-3.5 text-black" />
 						<span>Скачать MP4</span>
 					</Button>
 				</a>
 
 				<Button
+					v-if="videoUrl"
+					variant="secondary"
+					size="icon"
+					@click="handleCopyLink"
+					class="shrink-0 active:scale-[0.96] transition-transform"
+					title="Скопировать ссылку на видео"
+				>
+					<Icon :name="isCopied ? 'check' : 'copy'" class="w-4 h-4 text-white" />
+				</Button>
+
+				<Button
 					variant="secondary"
 					size="icon"
 					@click="router.push({ name: 'queue' })"
+					class="shrink-0 active:scale-[0.96] transition-transform"
 					title="Перевести новое видео"
 				>
 					<Icon name="reload" class="w-4 h-4 text-white" />
