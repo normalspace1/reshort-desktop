@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Icon } from '@/components/ui'
 
 import { useProjectStore } from '@/stores/project'
 
@@ -34,7 +33,6 @@ function navigateTo(name: string) {
 						: 'bg-transparent text-[var(--text-muted)] hover:text-white'
 				"
 			>
-				<Icon name="channel" class="w-3.5 h-3.5" />
 				<span>Очередь</span>
 				<span
 					v-if="store.queueCount > 0"
@@ -55,7 +53,6 @@ function navigateTo(name: string) {
 						: 'bg-transparent text-[var(--text-muted)] hover:text-white'
 				"
 			>
-				<Icon name="recent" class="w-3.5 h-3.5" />
 				<span>История</span>
 				<span
 					v-if="store.historyCount > 0"
