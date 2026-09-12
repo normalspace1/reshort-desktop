@@ -39,10 +39,10 @@
 	--bg-hover: #262b37;
 	--bg-active: #2e3443;
 
-	--border-default: rgba(255, 255, 255, 0.07);
-	--border-subtle: rgba(255, 255, 255, 0.035);
-	--border-strong: rgba(245, 158, 11, 0.35);
-	--border-divider: rgba(255, 255, 255, 0.05);
+	--border-default: transparent;
+	--border-subtle: transparent;
+	--border-strong: transparent;
+	--border-divider: transparent;
 
 	--text-primary: #f3f4f6;
 	--text-secondary: #9ca3af;

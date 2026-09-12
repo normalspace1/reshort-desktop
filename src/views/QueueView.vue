@@ -184,19 +184,16 @@ onUnmounted(() => {
 	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 pt-2 pb-8 select-none">
 		<!-- 1. Рабочая станция импорта и параметров -->
 		<div
-			class="w-full rounded-xl border flex flex-col overflow-hidden transition-all"
-			style="background: var(--bg-secondary); border-color: var(--border-default)"
+			class="w-full rounded-xl flex flex-col overflow-hidden transition-all"
+			style="background: var(--bg-secondary)"
 		>
 			<!-- Верхняя строка импорта -->
-			<div
-				class="flex items-center gap-3 px-4 py-3 border-b"
-				style="border-color: var(--border-divider)"
-			>
+			<div class="flex items-center gap-3 px-4 py-3">
 				<!-- Режим выбранного файла / папки -->
 				<div
 					v-if="source"
 					class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs flex-1 min-w-0"
-					style="background: var(--bg-tertiary); border: 1px solid var(--border-default)"
+					style="background: var(--bg-tertiary)"
 				>
 					<Icon
 						:name="source.type === 'folder' ? 'folder' : 'video'"
@@ -237,7 +234,7 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFile"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border border-white/5 cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать файл (⌘O)"
 					>
 						<Icon name="video" class="w-3.5 h-3.5" />
@@ -246,7 +243,7 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFolder"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border border-white/5 cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать папку (⌘⇧O)"
 					>
 						<Icon name="folder" class="w-3.5 h-3.5" />
@@ -265,10 +262,7 @@ onUnmounted(() => {
 					<!-- Скорость речи -->
 					<div class="flex items-center gap-1.5">
 						<span class="text-[11px] text-[var(--text-muted)]">Темп:</span>
-						<div
-							class="flex items-center p-0.5 rounded-lg border border-white/5"
-							style="background: var(--bg-secondary)"
-						>
+						<div class="flex items-center p-0.5 rounded-lg" style="background: var(--bg-secondary)">
 							<button
 								v-for="s in [1.0, 1.12, 1.25]"
 								:key="s"
@@ -316,7 +310,7 @@ onUnmounted(() => {
 						<span>{{
 							source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
 						}}</span>
-						<Kbd class="opacity-70 border-black/20 bg-black/10 text-black">⌘↵</Kbd>
+						<Kbd class="opacity-70 border-none bg-black/10 text-black">⌘↵</Kbd>
 					</Button>
 				</div>
 			</div>
@@ -330,15 +324,13 @@ onUnmounted(() => {
 				</span>
 			</div>
 
-			<div
-				class="w-full rounded-xl border flex flex-col overflow-hidden divide-y divide-white/5"
-				style="background: var(--bg-secondary); border-color: var(--border-default)"
-			>
+			<div class="w-full rounded-xl flex flex-col overflow-hidden gap-1">
 				<div
 					v-for="task in activeTasks"
 					:key="task.id"
 					@click="router.push({ name: 'processing', params: { id: task.id } })"
-					class="flex items-center justify-between p-3.5 cursor-pointer transition-colors hover:bg-[var(--bg-tertiary)] relative"
+					class="flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-colors hover:bg-[var(--bg-tertiary)] relative"
+					style="background: var(--bg-secondary)"
 				>
 					<div class="flex items-center gap-3 min-w-0 flex-1">
 						<div
@@ -402,8 +394,8 @@ onUnmounted(() => {
 					v-for="done in recentDoneTasks"
 					:key="done.id"
 					@click="router.push({ name: 'result', params: { id: done.id } })"
-					class="flex flex-col p-2.5 rounded-xl border cursor-pointer transition-all hover:border-white/20 group"
-					style="background: var(--bg-secondary); border-color: var(--border-default)"
+					class="flex flex-col p-2.5 rounded-xl cursor-pointer transition-all hover:bg-[var(--bg-tertiary)] group"
+					style="background: var(--bg-secondary)"
 				>
 					<div
 						class="w-full aspect-[9/16] max-h-36 rounded-lg mb-2 overflow-hidden flex items-center justify-center relative"
