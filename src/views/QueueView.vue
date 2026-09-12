@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
 import { filePickerApi, generationApi } from '@/api/projects'
+import { VideoThumbnail } from '@/components/common'
 import { Button, Icon, Switch } from '@/components/ui'
 import { STAGE_NAMES } from '@/constants/project'
 import { useProjectStore } from '@/stores/project'
@@ -168,26 +169,6 @@ function handleKeyDown(e: KeyboardEvent) {
 		e.preventDefault()
 		handlePickFolder()
 	}
-}
-
-const isVerticalMap = ref<Record<string, boolean>>({})
-
-function onImgLoad(e: Event, id: string) {
-	const img = e.target as HTMLImageElement
-	if (img && img.naturalWidth && img.naturalHeight) {
-		isVerticalMap.value[id] = img.naturalHeight > img.naturalWidth
-	}
-}
-
-function isVertical(p: any): boolean {
-	if (isVerticalMap.value[p.id] !== undefined) {
-		return isVerticalMap.value[p.id]
-	}
-	if (p.info?.resolution) {
-		const [w, h] = p.info.resolution.split('x').map(Number)
-		if (w && h) return h > w
-	}
-	return true
 }
 
 onMounted(() => {
@@ -401,23 +382,12 @@ onUnmounted(() => {
 					class="flex items-center gap-3 p-2.5 rounded-2xl cursor-pointer transition-all hover:bg-[var(--bg-hover)] group"
 					style="background: var(--bg-secondary)"
 				>
-					<div
-						class="h-14 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative bg-black/60"
-						:class="isVertical(done) ? 'w-9 aspect-[9/16]' : 'w-20 aspect-video'"
-					>
-						<img
-							v-if="done.info?.thumbnail"
-							:src="done.info.thumbnail"
-							@load="onImgLoad($event, done.id)"
-							class="w-full h-full object-cover"
-						/>
-						<Icon v-else name="video" class="w-4 h-4 text-white" />
-						<div
-							class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
-						>
-							<Icon name="play" class="w-4 h-4 text-white" />
-						</div>
-					</div>
+					<VideoThumbnail
+						:src="done.info?.thumbnail"
+						:duration="done.info?.duration"
+						:resolution="done.info?.resolution"
+						class="h-14"
+					/>
 					<div class="flex flex-col min-w-0 flex-1">
 						<span class="text-xs font-medium text-white truncate">
 							{{ done.info?.title || done.id }}

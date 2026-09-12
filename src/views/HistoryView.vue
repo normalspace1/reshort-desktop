@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { projectsApi } from '@/api/projects'
-import { EmptyState } from '@/components/common'
+import { EmptyState, VideoThumbnail } from '@/components/common'
 import { Button, Icon, Input } from '@/components/ui'
 import { useProjectStore } from '@/stores/project'
 
@@ -31,13 +31,6 @@ const completedProjects = computed(() => {
 	return list
 })
 
-function formatDuration(seconds?: number): string {
-	if (!seconds || seconds <= 0) return ''
-	const m = Math.floor(seconds / 60)
-	const s = Math.floor(seconds % 60)
-	return `${m}:${s < 10 ? '0' : ''}${s}`
-}
-
 function formatDate(dateStr?: string): string {
 	if (!dateStr) return '—'
 	try {
@@ -51,27 +44,6 @@ function formatDate(dateStr?: string): string {
 	} catch {
 		return dateStr
 	}
-}
-
-const isVerticalMap = ref<Record<string, boolean>>({})
-
-function onImgLoad(e: Event, id: string) {
-	const img = e.target as HTMLImageElement
-	if (img && img.naturalWidth && img.naturalHeight) {
-		isVerticalMap.value[id] = img.naturalHeight > img.naturalWidth
-	}
-}
-
-function isVertical(p: any): boolean {
-	if (isVerticalMap.value[p.id] !== undefined) {
-		return isVerticalMap.value[p.id]
-	}
-	if (p.info?.resolution) {
-		const [w, h] = p.info.resolution.split('x').map(Number)
-		if (w && h) return h > w
-	}
-	// ReShort targets Shorts/Reels/TikTok by default
-	return true
 }
 
 async function handleDelete(id: string, e: Event) {
@@ -184,35 +156,14 @@ onMounted(() => {
 				>
 					<!-- Колонка видео (Превью + Название + Метаданные) -->
 					<div class="col-span-7 sm:col-span-6 flex items-center gap-3.5 min-w-0 pr-3">
-						<!-- Превью ролика: адаптировано под вертикальные 9:16 Shorts/Reels и горизонтальные 16:9 -->
-						<div
-							class="h-16 rounded-xl overflow-hidden shrink-0 relative flex items-center justify-center bg-black/60"
-							:class="isVertical(p) ? 'w-10 sm:w-11 aspect-[9/16]' : 'w-24 sm:w-28 aspect-video'"
-						>
-							<img
-								v-if="p.info?.thumbnail"
-								:src="p.info.thumbnail"
-								@load="onImgLoad($event, p.id)"
-								class="w-full h-full object-cover transition-transform group-hover:scale-105"
-							/>
-							<Icon v-else name="video" class="w-5 h-5 text-white" />
-
-							<!-- Бейдж таймкода в правом нижнем углу -->
-							<span
-								v-if="p.info?.duration"
-								class="absolute bottom-1 right-1 bg-black/85 text-white font-mono text-[9px] px-1 py-0.2 rounded font-medium leading-none"
-							>
-								{{ formatDuration(p.info.duration) }}
-							</span>
-
-							<!-- Оверлей кнопки воспроизведения при наведении на строку -->
-							<div
-								v-if="p.status === 'done'"
-								class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
-							>
-								<Icon name="play" class="w-4 h-4 text-white" />
-							</div>
-						</div>
+						<!-- Reusable VideoThumbnail -->
+						<VideoThumbnail
+							:src="p.info?.thumbnail"
+							:duration="p.info?.duration"
+							:resolution="p.info?.resolution"
+							:show-play-on-hover="p.status === 'done'"
+							class="h-16"
+						/>
 
 						<!-- Заголовок и детали -->
 						<div class="flex flex-col min-w-0">
