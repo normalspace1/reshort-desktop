@@ -251,7 +251,7 @@ onUnmounted(() => {
 					<span>{{
 						source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
 					}}</span>
-					<Kbd class="opacity-70 border-black/20 bg-black/10 text-black">⌘↵</Kbd>
+					<Kbd class="opacity-80 border-white/20 bg-black/20 text-white">⌘↵</Kbd>
 				</Button>
 			</div>
 		</div>

@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 const variantClasses = computed(() => {
 	const variants = {
 		default:
-			'bg-[var(--accent)] text-black font-semibold hover:bg-[var(--accent-hover)] active:scale-[0.98]',
+			'bg-[var(--accent)] text-[var(--accent-text)] font-semibold hover:bg-[var(--accent-hover)] active:scale-[0.98] shadow-sm shadow-indigo-500/20',
 		secondary:
 			'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] active:scale-[0.98]',
 		ghost: 'bg-transparent text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)]',
