@@ -13,9 +13,9 @@ defineProps<Props>()
 
 <template>
 	<div class="w-full flex flex-col items-center justify-center p-8 text-center">
-		<div v-if="icon" class="flex items-center justify-center text-[var(--text-muted)] mb-3">
-			<Icon v-if="typeof icon === 'string'" :name="icon" class="w-8 h-8" />
-			<component :is="icon" v-else class="w-8 h-8" />
+		<div v-if="icon" class="flex items-center justify-center text-white mb-3">
+			<Icon v-if="typeof icon === 'string'" :name="icon" class="w-8 h-8 text-white" />
+			<component :is="icon" v-else class="w-8 h-8 text-white" />
 		</div>
 		<h3 class="text-sm font-medium text-white m-0">{{ title }}</h3>
 		<p v-if="description" class="text-xs text-[var(--text-muted)] mt-1.5 max-w-sm m-0">

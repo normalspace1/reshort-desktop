@@ -88,12 +88,8 @@ watch(
 				</div>
 			</div>
 
-			<div
-				v-else-if="store.loading"
-				class="flex items-center gap-2"
-				style="color: var(--text-muted)"
-			>
-				<Icon name="reload" class="w-4 h-4 animate-spin" />
+			<div v-else-if="store.loading" class="flex items-center gap-2 text-white">
+				<Icon name="reload" class="w-4 h-4 animate-spin text-white" />
 				<span class="text-sm">Проверка…</span>
 			</div>
 
@@ -105,8 +101,8 @@ watch(
 						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors"
 						:style="chipStyles[m.id]"
 					>
-						<Icon v-if="isActive(m.id)" name="reload" class="w-3 h-3 animate-spin" />
-						<Icon v-else-if="m.ok" name="check" class="w-3 h-3" />
+						<Icon v-if="isActive(m.id)" name="reload" class="w-3 h-3 animate-spin text-white" />
+						<Icon v-else-if="m.ok" name="check" class="w-3 h-3 text-white" />
 						<span v-else class="w-1.5 h-1.5 rounded-full" style="background: currentColor" />
 						{{ m.label }}
 					</span>
@@ -127,8 +123,8 @@ watch(
 						Повторить
 					</button>
 				</div>
-				<div v-else class="flex items-center gap-2" style="color: var(--text-muted)">
-					<Icon name="reload" class="w-4 h-4 animate-spin" />
+				<div v-else class="flex items-center gap-2 text-white">
+					<Icon name="reload" class="w-4 h-4 animate-spin text-white" />
 					<span class="text-sm">Проверка…</span>
 				</div>
 			</div>

@@ -97,9 +97,9 @@ defineExpose({
 			v-if="!isPlaying"
 			type="button"
 			@click="togglePlay"
-			class="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white cursor-pointer hover:scale-110 active:scale-95 transition-all z-10"
+			class="absolute inset-0 m-auto w-14 h-14 flex items-center justify-center text-white cursor-pointer hover:scale-110 active:scale-95 transition-all z-10 bg-transparent border-none"
 		>
-			<Icon name="play" class="w-6 h-6 ml-0.5 text-white" />
+			<Icon name="play" class="w-10 h-10 ml-0.5 text-white drop-shadow-lg" />
 		</button>
 
 		<!-- Панель управления видео (всплывает при наведении) -->

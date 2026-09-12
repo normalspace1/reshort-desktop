@@ -43,24 +43,24 @@ const delegatedProps = reactiveOmit(props, 'class', 'toastOptions')
 		v-bind="delegatedProps"
 	>
 		<template #success-icon>
-			<Icon name="check" class="w-3.5 h-3.5 text-[#10B981]" />
+			<Icon name="check" class="w-3.5 h-3.5 text-white" />
 		</template>
 		<template #info-icon>
-			<Icon name="info" class="w-3.5 h-3.5 text-[#38BDF8]" />
+			<Icon name="info" class="w-3.5 h-3.5 text-white" />
 		</template>
 		<template #warning-icon>
-			<Icon name="warning" class="w-3.5 h-3.5 text-[#F59E0B]" />
+			<Icon name="warning" class="w-3.5 h-3.5 text-white" />
 		</template>
 		<template #error-icon>
-			<Icon name="close" class="w-3.5 h-3.5 text-[#EF4444]" />
+			<Icon name="close" class="w-3.5 h-3.5 text-white" />
 		</template>
 		<template #loading-icon>
-			<div class="text-[var(--text-primary)]">
-				<Icon name="reload" class="w-3.5 h-3.5 animate-spin" />
+			<div class="text-white">
+				<Icon name="reload" class="w-3.5 h-3.5 animate-spin text-white" />
 			</div>
 		</template>
 		<template #close-icon>
-			<Icon name="close" class="w-3 h-3 opacity-70 hover:opacity-100" />
+			<Icon name="close" class="w-3 h-3 text-white opacity-70 hover:opacity-100" />
 		</template>
 	</Sonner>
 </template>

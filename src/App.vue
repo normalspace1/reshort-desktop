@@ -129,7 +129,7 @@ onUnmounted(() => {
 				class="w-full max-w-lg aspect-video rounded-3xl flex flex-col items-center justify-center gap-4 text-center"
 				style="background: var(--bg-secondary)"
 			>
-				<Icon name="cloud-download" class="w-14 h-14 text-[var(--accent)]" />
+				<Icon name="cloud-download" class="w-14 h-14 text-white" />
 				<div>
 					<h3 class="text-base font-semibold text-white">Перетащите видео или папку сюда</h3>
 					<p class="text-xs text-[var(--text-muted)] mt-1">

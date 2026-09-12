@@ -171,7 +171,7 @@ onUnmounted(() => {
 				class="flex items-center gap-3 px-4 py-3.5 border-b"
 				style="border-color: var(--border-divider)"
 			>
-				<Icon name="search" class="w-4 h-4 text-[var(--text-muted)]" />
+				<Icon name="search" class="w-4 h-4 text-white" />
 				<input
 					ref="searchInput"
 					v-model="query"
@@ -207,11 +207,7 @@ onUnmounted(() => {
 					"
 				>
 					<div class="flex items-center gap-3 min-w-0">
-						<Icon
-							:name="item.icon"
-							class="w-4 h-4 shrink-0"
-							:class="selectedIndex === idx ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'"
-						/>
+						<Icon :name="item.icon" class="w-4 h-4 shrink-0 text-white" />
 						<div class="flex flex-col min-w-0">
 							<span
 								class="text-xs font-medium truncate"

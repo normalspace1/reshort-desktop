@@ -62,7 +62,7 @@ const svgContent = computed(() => {
 		v-if="svgContent"
 		:class="
 			cn(
-				'inline-flex items-center justify-center shrink-0 w-4 h-4 text-current transition-colors fill-current',
+				'inline-flex items-center justify-center shrink-0 w-4 h-4 text-white transition-colors fill-current',
 				props.class,
 			)
 		"

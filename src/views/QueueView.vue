@@ -197,29 +197,29 @@ onUnmounted(() => {
 				>
 					<Icon
 						:name="source.type === 'folder' ? 'folder' : 'video'"
-						class="w-4 h-4 text-[var(--accent)] shrink-0"
+						class="w-4 h-4 text-white shrink-0"
 					/>
 					<span class="font-medium truncate text-white">{{ source.name }}</span>
 					<span
 						v-if="source.count"
-						class="text-[11px] px-1.5 py-0.5 rounded text-[var(--accent)]"
-						style="background: var(--accent-subtle)"
+						class="text-[11px] px-1.5 py-0.5 rounded text-white"
+						style="background: rgba(255, 255, 255, 0.1)"
 					>
 						{{ source.count }} файлов
 					</span>
 					<button
 						type="button"
 						@click="resetSource"
-						class="ml-auto p-1 hover:text-white text-[var(--text-muted)] bg-transparent border-none cursor-pointer"
+						class="ml-auto p-1 hover:opacity-80 text-white bg-transparent border-none cursor-pointer"
 						title="Сбросить выбор"
 					>
-						<Icon name="close" class="w-3.5 h-3.5" />
+						<Icon name="close" class="w-3.5 h-3.5 text-white" />
 					</button>
 				</div>
 
 				<!-- Поле ввода URL -->
 				<div v-else class="flex items-center gap-2 flex-1 min-w-0">
-					<Icon name="search" class="w-4 h-4 text-[var(--text-muted)] shrink-0" />
+					<Icon name="search" class="w-4 h-4 text-white shrink-0" />
 					<input
 						ref="inputRef"
 						v-model="url"
@@ -234,19 +234,19 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFile"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать файл (⌘O)"
 					>
-						<Icon name="video" class="w-3.5 h-3.5" />
+						<Icon name="video" class="w-3.5 h-3.5 text-white" />
 						<span>Файл</span>
 					</button>
 					<button
 						type="button"
 						@click="handlePickFolder"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать папку (⌘⇧O)"
 					>
-						<Icon name="folder" class="w-3.5 h-3.5" />
+						<Icon name="folder" class="w-3.5 h-3.5 text-white" />
 						<span>Папка</span>
 					</button>
 				</div>
@@ -333,7 +333,7 @@ onUnmounted(() => {
 					style="background: var(--bg-secondary)"
 				>
 					<div class="flex items-center gap-3 min-w-0 flex-1">
-						<Icon name="video" class="w-5 h-5 text-[var(--accent)] shrink-0" />
+						<Icon name="video" class="w-5 h-5 text-white shrink-0" />
 						<div class="flex flex-col min-w-0">
 							<span class="text-xs font-medium text-white truncate">
 								{{ task.info?.title || task.id }}
@@ -365,7 +365,7 @@ onUnmounted(() => {
 							</div>
 						</div>
 
-						<Icon name="arrow-right" class="w-4 h-4 text-[var(--text-muted)]" />
+						<Icon name="arrow-right" class="w-4 h-4 text-white" />
 					</div>
 				</div>
 			</div>
@@ -401,7 +401,7 @@ onUnmounted(() => {
 							:src="done.info.thumbnail"
 							class="w-full h-full object-cover transition-transform group-hover:scale-105"
 						/>
-						<Icon v-else name="video" class="w-6 h-6 text-[var(--text-muted)]" />
+						<Icon v-else name="video" class="w-6 h-6 text-white" />
 						<div
 							class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 						>

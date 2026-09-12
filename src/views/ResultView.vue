@@ -58,9 +58,9 @@ onMounted(() => {
 			<button
 				type="button"
 				@click="router.push({ name: 'history' })"
-				class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer transition-colors p-0"
+				class="flex items-center gap-1.5 text-xs text-white hover:opacity-80 bg-transparent border-none cursor-pointer transition-colors p-0"
 			>
-				<Icon name="arrow-left" class="w-3.5 h-3.5" />
+				<Icon name="arrow-left" class="w-3.5 h-3.5 text-white" />
 				<span>История</span>
 			</button>
 
@@ -71,27 +71,27 @@ onMounted(() => {
 			<button
 				type="button"
 				@click="openFolder"
-				class="text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
+				class="text-white hover:opacity-80 bg-transparent border-none cursor-pointer p-0"
 				title="Показать в проводнике"
 			>
-				<Icon name="folder" class="w-4 h-4" />
+				<Icon name="folder" class="w-4 h-4 text-white" />
 			</button>
 		</div>
 
 		<!-- 9:16 Вертикальный фрейм плеера (переиспользуемый VideoPlayer) -->
 		<div
 			v-if="!videoUrl && isLoadingVideo"
-			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
+			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
 		>
-			<Icon name="video" class="w-8 h-8" />
+			<Icon name="video" class="w-8 h-8 text-white" />
 			<span class="text-xs">Загрузка видео...</span>
 		</div>
 		<VideoPlayer v-else-if="videoUrl" :src="videoUrl" />
 		<div
 			v-else
-			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
+			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
 		>
-			<Icon name="video" class="w-8 h-8" />
+			<Icon name="video" class="w-8 h-8 text-white" />
 			<span class="text-xs">Файл видео не найден</span>
 		</div>
 
@@ -110,7 +110,7 @@ onMounted(() => {
 				@click="router.push({ name: 'queue' })"
 				title="Перевести новое видео"
 			>
-				<Icon name="reload" class="w-4 h-4" />
+				<Icon name="reload" class="w-4 h-4 text-white" />
 			</Button>
 		</div>
 	</div>

@@ -109,14 +109,14 @@ onMounted(() => {
 				class="w-full h-full object-cover"
 				:class="project?.status === 'running' ? 'opacity-40' : 'opacity-80'"
 			/>
-			<Icon v-else name="video" class="w-8 h-8 text-[var(--text-muted)]" />
+			<Icon v-else name="video" class="w-8 h-8 text-white" />
 
 			<!-- Анимированный спиннер во время обработки -->
 			<div
 				v-if="project?.status === 'running'"
 				class="absolute inset-0 flex flex-col items-center justify-center gap-2"
 			>
-				<Icon name="reload" class="w-7 h-7 animate-spin text-[var(--accent)]" />
+				<Icon name="reload" class="w-7 h-7 animate-spin text-white" />
 			</div>
 
 			<!-- Иконка воспроизведения при готовности -->

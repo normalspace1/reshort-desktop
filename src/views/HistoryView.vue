@@ -65,7 +65,7 @@ onMounted(() => {
 			<div class="relative w-64">
 				<Icon
 					name="search"
-					class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-muted)] pointer-events-none"
+					class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white pointer-events-none"
 				/>
 				<Input v-model="searchQuery" placeholder="Поиск по названию..." class="pl-9" />
 			</div>
@@ -137,7 +137,7 @@ onMounted(() => {
 						:src="p.info.thumbnail"
 						class="w-full h-full object-cover transition-transform group-hover:scale-105"
 					/>
-					<Icon v-else name="video" class="w-6 h-6 text-[var(--text-muted)]" />
+					<Icon v-else name="video" class="w-6 h-6 text-white" />
 
 					<!-- Оверлей воспроизведения при наведении -->
 					<div
@@ -158,18 +158,18 @@ onMounted(() => {
 						<button
 							type="button"
 							@click="handleOpenFolder(p.id, $event)"
-							class="p-0.5 text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer"
+							class="p-0.5 text-white hover:opacity-75 bg-transparent border-none cursor-pointer"
 							title="Показать в проводнике"
 						>
-							<Icon name="folder" class="w-3.5 h-3.5" />
+							<Icon name="folder" class="w-3.5 h-3.5 text-white" />
 						</button>
 						<button
 							type="button"
 							@click="handleDelete(p.id, $event)"
-							class="p-0.5 text-[var(--text-muted)] hover:text-[#f87171] bg-transparent border-none cursor-pointer"
+							class="p-0.5 text-white hover:opacity-75 bg-transparent border-none cursor-pointer"
 							title="Удалить"
 						>
-							<Icon name="delete" class="w-3.5 h-3.5" />
+							<Icon name="delete" class="w-3.5 h-3.5 text-white" />
 						</button>
 					</div>
 				</div>
