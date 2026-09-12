@@ -43,7 +43,7 @@ function toggle() {
 			:class="
 				cn(
 					'pointer-events-none block h-4 w-4 rounded-full shadow-sm transition-transform',
-					modelValue ? 'translate-x-4 bg-white shadow-md' : 'translate-x-0 bg-white/70',
+					modelValue ? 'translate-x-4 bg-black shadow-md' : 'translate-x-0 bg-white/70',
 				)
 			"
 		/>

@@ -30,49 +30,49 @@
 }
 
 :root {
-	/* Midnight Studio (Deep Obsidian & Electric Indigo / Ultraviolet) */
-	--bg-primary: #0a0b10;
-	--bg-sidebar: #07080c;
-	--bg-secondary: #11131c;
-	--bg-tertiary: #181b27;
-	--bg-elevated: #1e2232;
-	--bg-hover: #222638;
-	--bg-active: #292e44;
+	/* Apple / Vercel Pure Monochrome (Clean Pitch Black & White) */
+	--bg-primary: #000000;
+	--bg-sidebar: #000000;
+	--bg-secondary: #0a0a0a;
+	--bg-tertiary: #141414;
+	--bg-elevated: #1a1a1a;
+	--bg-hover: #1f1f1f;
+	--bg-active: #262626;
 
-	--border-default: rgba(255, 255, 255, 0.06);
-	--border-subtle: rgba(255, 255, 255, 0.035);
-	--border-strong: rgba(99, 102, 241, 0.25);
-	--border-divider: rgba(255, 255, 255, 0.04);
+	--border-default: rgba(255, 255, 255, 0.09);
+	--border-subtle: rgba(255, 255, 255, 0.05);
+	--border-strong: rgba(255, 255, 255, 0.2);
+	--border-divider: rgba(255, 255, 255, 0.06);
 
-	--text-primary: #f8fafc;
-	--text-secondary: #94a3b8;
-	--text-muted: #64748b;
-	--text-disabled: #334155;
+	--text-primary: #ededed;
+	--text-secondary: #a1a1aa;
+	--text-muted: #71717a;
+	--text-disabled: #3f3f46;
 
-	/* Accent: Electric Indigo / Ultraviolet */
-	--accent: #6366f1;
-	--accent-hover: #7c3aed;
-	--accent-subtle: rgba(99, 102, 241, 0.15);
-	--accent-border: rgba(99, 102, 241, 0.35);
-	--accent-text: #ffffff;
+	/* Accent: Pure Apple / Vercel White */
+	--accent: #ffffff;
+	--accent-hover: #e4e4e7;
+	--accent-subtle: rgba(255, 255, 255, 0.08);
+	--accent-border: rgba(255, 255, 255, 0.22);
+	--accent-text: #000000;
 
-	--button-primary-bg: #6366f1;
-	--button-primary-text: #ffffff;
-	--button-primary-hover: #5558e6;
-	--button-primary-active: #4f46e5;
+	--button-primary-bg: #ffffff;
+	--button-primary-text: #000000;
+	--button-primary-hover: #e4e4e7;
+	--button-primary-active: #d4d4d8;
 
-	--button-secondary-bg: #181b27;
-	--button-secondary-text: #f8fafc;
-	--button-secondary-hover: #222638;
+	--button-secondary-bg: #141414;
+	--button-secondary-text: #ededed;
+	--button-secondary-hover: #1f1f1f;
 
 	--button-ghost-bg: transparent;
-	--button-ghost-text: #94a3b8;
-	--button-ghost-hover: #181b27;
+	--button-ghost-text: #a1a1aa;
+	--button-ghost-hover: #141414;
 
-	--success: #10b981;
-	--success-bg: rgba(16, 185, 129, 0.12);
-	--error: #f43f5e;
-	--error-bg: rgba(244, 63, 94, 0.12);
+	--success: #22c55e;
+	--success-bg: rgba(34, 197, 94, 0.12);
+	--error: #ef4444;
+	--error-bg: rgba(239, 68, 68, 0.12);
 	--warning: #f59e0b;
 	--warning-bg: rgba(245, 158, 11, 0.12);
 	--info: #38bdf8;
@@ -100,15 +100,15 @@ body {
 	background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-	background: #1e2232;
+	background: #262626;
 	border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-	background: #2b3147;
+	background: #383838;
 }
 
 ::selection {
-	background: rgba(99, 102, 241, 0.35);
+	background: rgba(255, 255, 255, 0.25);
 	color: #ffffff;
 }
 
