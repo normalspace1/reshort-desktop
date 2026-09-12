@@ -30,44 +30,44 @@
 }
 
 :root {
-	/* Studio Obsidian & Solar Amber (#0f0f0f Base) */
+	/* YouTube Studio Dark Mode (#0f0f0f Base) */
 	--bg-primary: #0f0f0f;
 	--bg-sidebar: #0f0f0f;
-	--bg-secondary: #171717;
-	--bg-tertiary: #202020;
-	--bg-elevated: #262626;
-	--bg-hover: #2c2c2c;
-	--bg-active: #333333;
+	--bg-secondary: #212121;
+	--bg-tertiary: #181818;
+	--bg-elevated: #282828;
+	--bg-hover: #383838;
+	--bg-active: #484848;
 
 	--border-default: transparent;
 	--border-subtle: transparent;
 	--border-strong: transparent;
 	--border-divider: transparent;
 
-	--text-primary: #f3f4f6;
-	--text-secondary: #8e8e93;
-	--text-muted: #545458;
-	--text-disabled: #2c2c2e;
+	--text-primary: #f1f1f1;
+	--text-secondary: #aaaaaa;
+	--text-muted: #717171;
+	--text-disabled: #383838;
 
 	/* Accent: Studio White (#fff) */
 	--accent: #ffffff;
 	--accent-hover: #e5e5e5;
 	--accent-subtle: rgba(255, 255, 255, 0.1);
 	--accent-border: rgba(255, 255, 255, 0.2);
-	--accent-text: #000000;
+	--accent-text: #0f0f0f;
 
 	--button-primary-bg: #ffffff;
-	--button-primary-text: #000000;
+	--button-primary-text: #0f0f0f;
 	--button-primary-hover: #e5e5e5;
 	--button-primary-active: #cccccc;
 
-	--button-secondary-bg: #202020;
-	--button-secondary-text: #f3f4f6;
-	--button-secondary-hover: #2c2c2c;
+	--button-secondary-bg: rgba(255, 255, 255, 0.1);
+	--button-secondary-text: #f1f1f1;
+	--button-secondary-hover: rgba(255, 255, 255, 0.2);
 
 	--button-ghost-bg: transparent;
-	--button-ghost-text: #8e8e93;
-	--button-ghost-hover: #202020;
+	--button-ghost-text: #aaaaaa;
+	--button-ghost-hover: rgba(255, 255, 255, 0.1);
 
 	--success: #10b981;
 	--success-bg: rgba(16, 185, 129, 0.12);

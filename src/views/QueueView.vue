@@ -234,7 +234,7 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFile"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-colors"
 						title="Выбрать файл (⌘O)"
 					>
 						<Icon name="video" class="w-3.5 h-3.5 text-white" />
@@ -243,7 +243,7 @@ onUnmounted(() => {
 					<button
 						type="button"
 						@click="handlePickFolder"
-						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs text-white hover:bg-white/10 bg-white/5 border-none cursor-pointer transition-colors"
 						title="Выбрать папку (⌘⇧O)"
 					>
 						<Icon name="folder" class="w-3.5 h-3.5 text-white" />

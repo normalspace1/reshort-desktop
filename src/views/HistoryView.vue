@@ -67,19 +67,19 @@ onMounted(() => {
 					name="search"
 					class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white pointer-events-none"
 				/>
-				<Input v-model="searchQuery" placeholder="Поиск по названию..." class="pl-9" />
+				<Input v-model="searchQuery" placeholder="Поиск по названию..." class="pl-9 rounded-full" />
 			</div>
 
-			<!-- Фильтры статуса -->
-			<div class="flex items-center gap-1 text-xs">
+			<!-- Фильтры статуса в стиле YouTube Studio Chips -->
+			<div class="flex items-center gap-1.5 text-xs">
 				<button
 					type="button"
 					@click="selectedFilter = 'all'"
-					class="px-2.5 py-1 rounded-lg border-none cursor-pointer text-xs transition-colors"
+					class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all"
 					:class="
 						selectedFilter === 'all'
-							? 'bg-[var(--bg-tertiary)] text-white font-medium'
-							: 'bg-transparent text-[var(--text-muted)] hover:text-white'
+							? 'bg-white text-[#0f0f0f]'
+							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
 					"
 				>
 					Все
@@ -87,11 +87,11 @@ onMounted(() => {
 				<button
 					type="button"
 					@click="selectedFilter = 'done'"
-					class="px-2.5 py-1 rounded-lg border-none cursor-pointer text-xs transition-colors"
+					class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all"
 					:class="
 						selectedFilter === 'done'
-							? 'bg-[var(--bg-tertiary)] text-white font-medium'
-							: 'bg-transparent text-[var(--text-muted)] hover:text-white'
+							? 'bg-white text-[#0f0f0f]'
+							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
 					"
 				>
 					Готовые
@@ -99,11 +99,11 @@ onMounted(() => {
 				<button
 					type="button"
 					@click="selectedFilter = 'failed'"
-					class="px-2.5 py-1 rounded-lg border-none cursor-pointer text-xs transition-colors"
+					class="px-3 py-1 rounded-full border-none cursor-pointer text-xs font-medium transition-all"
 					:class="
 						selectedFilter === 'failed'
-							? 'bg-[var(--bg-tertiary)] text-white font-medium'
-							: 'bg-transparent text-[var(--text-muted)] hover:text-white'
+							? 'bg-white text-[#0f0f0f]'
+							: 'bg-white/10 text-[var(--text-secondary)] hover:text-white hover:bg-white/15'
 					"
 				>
 					Ошибки
