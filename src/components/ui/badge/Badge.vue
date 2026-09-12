@@ -18,7 +18,7 @@ const classes = computed(() => {
 		secondary: 'bg-[var(--bg-secondary)] text-[var(--text-secondary)]',
 		accent: 'bg-[var(--accent-subtle)] text-[var(--accent)]',
 		destructive: 'bg-red-500/15 text-red-400',
-		outline: 'border border-white/10 text-white',
+		outline: 'bg-white/5 text-white',
 	}
 
 	return cn(

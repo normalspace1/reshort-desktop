@@ -20,12 +20,11 @@ const props = withDefaults(defineProps<Props>(), {
 const variantClasses = computed(() => {
 	const variants = {
 		default:
-			'bg-[var(--accent)] text-[var(--accent-text)] font-semibold hover:bg-[var(--accent-hover)] active:scale-[0.98] shadow-sm shadow-amber-500/20',
+			'bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] font-semibold hover:bg-[var(--button-primary-hover)] active:scale-[0.98]',
 		secondary:
 			'bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] active:scale-[0.98]',
 		ghost: 'bg-transparent text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)]',
-		outline:
-			'border border-white/10 bg-transparent text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]',
+		outline: 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]',
 		destructive: 'bg-red-500/15 text-red-400 hover:bg-red-500/25',
 	}
 

@@ -99,7 +99,7 @@ onMounted(() => {
 		<div class="flex items-center gap-2 w-full max-w-[280px]">
 			<a v-if="videoUrl" :href="videoUrl" download="dubbed.mp4" class="flex-1 no-underline">
 				<Button class="w-full gap-2">
-					<Icon name="download" class="w-3.5 h-3.5" />
+					<Icon name="download" class="w-3.5 h-3.5 text-black" />
 					<span>Скачать MP4</span>
 				</Button>
 			</a>

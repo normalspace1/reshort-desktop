@@ -305,8 +305,8 @@ onUnmounted(() => {
 				<!-- Правая часть: кнопка запуска -->
 				<div class="flex items-center gap-2 ml-auto">
 					<Button :disabled="!canStart" @click="handleStart" size="sm" class="gap-2">
-						<Icon v-if="isSubmitting" name="reload" class="w-3.5 h-3.5 animate-spin" />
-						<Icon v-else name="play" class="w-3.5 h-3.5" />
+						<Icon v-if="isSubmitting" name="reload" class="w-3.5 h-3.5 animate-spin text-black" />
+						<Icon v-else name="play" class="w-3.5 h-3.5 text-black" />
 						<span>{{
 							source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
 						}}</span>

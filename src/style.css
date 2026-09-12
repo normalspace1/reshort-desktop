@@ -49,17 +49,17 @@
 	--text-muted: #545458;
 	--text-disabled: #2c2c2e;
 
-	/* Accent: Solar Amber / Analog Gold */
-	--accent: #f59e0b;
-	--accent-hover: #fbbf24;
-	--accent-subtle: rgba(245, 158, 11, 0.12);
-	--accent-border: rgba(245, 158, 11, 0.28);
+	/* Accent: Studio White (#fff) */
+	--accent: #ffffff;
+	--accent-hover: #e5e5e5;
+	--accent-subtle: rgba(255, 255, 255, 0.1);
+	--accent-border: rgba(255, 255, 255, 0.2);
 	--accent-text: #000000;
 
-	--button-primary-bg: #f59e0b;
+	--button-primary-bg: #ffffff;
 	--button-primary-text: #000000;
-	--button-primary-hover: #fbbf24;
-	--button-primary-active: #d97706;
+	--button-primary-hover: #e5e5e5;
+	--button-primary-active: #cccccc;
 
 	--button-secondary-bg: #202020;
 	--button-secondary-text: #f3f4f6;
@@ -108,7 +108,7 @@ body {
 }
 
 ::selection {
-	background: rgba(245, 158, 11, 0.3);
+	background: rgba(255, 255, 255, 0.25);
 	color: #ffffff;
 }
 
