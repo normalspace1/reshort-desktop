@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+@theme {
+	--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 10px;
+	--radius-xl: 12px;
+	--radius-2xl: 16px;
+}
+
+@theme inline {
+	--color-background: var(--bg-primary);
+	--color-foreground: var(--text-primary);
+	--color-card: var(--bg-secondary);
+	--color-card-foreground: var(--text-primary);
+	--color-primary: var(--button-primary-bg);
+	--color-primary-foreground: var(--button-primary-text);
+	--color-secondary: var(--bg-tertiary);
+	--color-secondary-foreground: var(--text-primary);
+	--color-muted: var(--bg-hover);
+	--color-muted-foreground: var(--text-muted);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-text);
+	--color-border: var(--border-default);
+}
+
+:root {
+	/* Palette specified in Master UX Prompt */
+	--bg-primary: #080808;
+	--bg-sidebar: #080808;
+	--bg-secondary: #101010;
+	--bg-tertiary: #151515;
+	--bg-elevated: #181818;
+	--bg-hover: #1b1b1b;
+	--bg-active: #222222;
+
+	--border-default: rgba(255, 255, 255, 0.05);
+	--border-subtle: rgba(255, 255, 255, 0.03);
+	--border-strong: rgba(255, 255, 255, 0.1);
+	--border-divider: transparent;
+
+	--text-primary: #f5f5f5;
+	--text-secondary: #858585;
+	--text-muted: #555555;
+	--text-disabled: #383838;
+
+	/* Accent: Electric Lime / Acid Green */
+	--accent: #a3e635;
+	--accent-hover: #bef264;
+	--accent-subtle: rgba(163, 230, 53, 0.12);
+	--accent-border: rgba(163, 230, 53, 0.28);
+	--accent-text: #080808;
+
+	--button-primary-bg: #a3e635;
+	--button-primary-text: #080808;
+	--button-primary-hover: #bef264;
+	--button-primary-active: #84cc16;
+
+	--button-secondary-bg: #151515;
+	--button-secondary-text: #f5f5f5;
+	--button-secondary-hover: #202020;
+
+	--button-ghost-bg: transparent;
+	--button-ghost-text: #858585;
+	--button-ghost-hover: #151515;
+
+	--success: #a3e635;
+	--success-bg: rgba(163, 230, 53, 0.12);
+	--error: #f43f5e;
+	--error-bg: rgba(244, 63, 94, 0.12);
+	--warning: #fbbf24;
+	--warning-bg: rgba(251, 191, 36, 0.12);
+	--info: #38bdf8;
+}
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 13px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	user-select: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: #222222;
+	border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #333333;
+}
+
+::selection {
+	background: rgba(163, 230, 53, 0.25);
+	color: #ffffff;
+}
+
+/* Transitions */
+button,
+a,
+input {
+	transition:
+		background-color 140ms ease,
+		border-color 140ms ease,
+		color 140ms ease,
+		opacity 140ms ease;
+}
+
+.font-mono {
+	font-family: var(--font-mono);
+}

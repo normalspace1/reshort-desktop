@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>desktop</title>
+		<style>
+			html,
+			body {
+				background: #0a0a0a;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+			window.addEventListener('error', function () {
+				var d = document.createElement('div')
+				d.style.cssText =
+					'position:fixed;inset:0;background:#0a0a0a;color:#f87171;display:flex;align-items:center;justify-content:center;z-index:9999;font:14px Roboto,sans-serif;padding:24px;text-align:center'
+				d.textContent = 'Ошибка запуска интерфейса. Перезапустите приложение.'
+				document.body.appendChild(d)
+			})
+			window.addEventListener('unhandledrejection', function () {
+				document.documentElement.dataset.rejected = '1'
+			})
+		</script>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
+</html>

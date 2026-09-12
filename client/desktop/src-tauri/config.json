@@ -1,0 +1,7 @@
+{
+  "ffmpeg_url": "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
+  "ytdlp_url": "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe",
+  "model_url": "https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/Kim_Vocal_2.onnx",
+  "worker_url": "http://127.0.0.1:8000",
+  "server_url": "http://127.0.0.1:3000"
+}
