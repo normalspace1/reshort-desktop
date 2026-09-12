@@ -169,6 +169,21 @@ const activeTasks = computed(() =>
 	store.projects.filter((p) => p.status === 'running' || p.status === 'queued'),
 )
 
+const isQueueExpanded = ref(false)
+
+const visibleActiveTasks = computed(() => {
+	if (isQueueExpanded.value) return activeTasks.value
+	return activeTasks.value.slice(0, 4)
+})
+
+const runningTasksCount = computed(
+	() => activeTasks.value.filter((p) => p.status === 'running').length,
+)
+
+const queuedTasksCount = computed(
+	() => activeTasks.value.filter((p) => p.status === 'queued').length,
+)
+
 const recentDoneTasks = computed(() =>
 	store.projects.filter((p) => p.status === 'done').slice(0, 4),
 )
@@ -398,18 +413,39 @@ onUnmounted(() => {
 
 		<!-- 2. Секция задач в обработке -->
 		<div v-if="activeTasks.length > 0" class="flex flex-col gap-2.5">
+			<!-- Заголовок очереди с батч-сводкой -->
 			<div class="flex items-center justify-between px-1">
-				<span class="text-xs font-medium text-[var(--text-secondary)]">
-					Очередь обработки ({{ activeTasks.length }})
-				</span>
+				<div class="flex items-center gap-2">
+					<span class="text-xs font-medium text-[var(--text-secondary)]">
+						Очередь обработки ({{ activeTasks.length }})
+					</span>
+					<span
+						v-if="activeTasks.length > 4"
+						class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white font-mono"
+					>
+						{{ runningTasksCount }} в процессе · {{ queuedTasksCount }} ожидают
+					</span>
+				</div>
+
+				<button
+					v-if="activeTasks.length > 4"
+					type="button"
+					@click="isQueueExpanded = !isQueueExpanded"
+					class="text-xs text-[var(--text-secondary)] hover:text-white bg-transparent border-none cursor-pointer p-0 transition-colors"
+				>
+					{{ isQueueExpanded ? 'Свернуть ▴' : `Показать все (${activeTasks.length}) ▾` }}
+				</button>
 			</div>
 
-			<div class="w-full flex flex-col gap-2">
+			<div
+				class="w-full flex flex-col gap-2 transition-all"
+				:class="{ 'max-h-[480px] overflow-y-auto pr-1': isQueueExpanded }"
+			>
 				<div
-					v-for="task in activeTasks"
+					v-for="task in visibleActiveTasks"
 					:key="task.id"
 					@click="router.push({ name: 'processing', params: { id: task.id } })"
-					class="flex items-center justify-between p-4 rounded-2xl cursor-pointer transition-all hover:bg-[var(--bg-hover)] relative"
+					class="flex items-center justify-between p-4 rounded-2xl cursor-pointer transition-all hover:bg-[var(--bg-hover)] relative group"
 					style="background: var(--bg-secondary)"
 				>
 					<div class="flex items-center gap-3.5 min-w-0 flex-1">
@@ -418,30 +454,52 @@ onUnmounted(() => {
 							<span class="text-xs font-medium text-white truncate">
 								{{ task.info?.title || task.id }}
 							</span>
-							<span class="text-[11px] text-[var(--text-secondary)] mt-0.5">
-								{{
-									task.current_stage
-										? STAGE_NAMES[task.current_stage as StageName] || task.current_stage
-										: 'Обработка...'
-								}}
-							</span>
+							<div class="flex items-center gap-2 mt-0.5">
+								<span
+									class="text-[11px]"
+									:class="
+										task.status === 'running'
+											? 'text-white font-medium'
+											: 'text-[var(--text-secondary)]'
+									"
+								>
+									{{
+										task.status === 'running'
+											? task.current_stage
+												? STAGE_NAMES[task.current_stage as StageName] || task.current_stage
+												: 'Обработка...'
+											: 'В очереди на дубляж'
+									}}
+								</span>
+								<span
+									v-if="task.status === 'running'"
+									class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 text-white font-mono"
+								>
+									Активно
+								</span>
+							</div>
 						</div>
 					</div>
 
 					<div class="flex items-center gap-4 shrink-0 ml-4">
 						<div class="w-28 flex flex-col gap-1 items-end">
 							<span class="text-xs text-white font-mono font-medium">
-								{{ getStageProgress(task) }}%
+								{{ task.status === 'running' ? `${getStageProgress(task)}%` : 'В очереди' }}
 							</span>
 							<div class="h-1 w-full rounded-full overflow-hidden bg-white/10">
 								<div
 									class="h-full transition-all duration-300 rounded-full bg-white"
-									:style="{ width: `${getStageProgress(task)}%` }"
+									:style="{
+										width: task.status === 'running' ? `${getStageProgress(task)}%` : '0%',
+									}"
 								/>
 							</div>
 						</div>
 
-						<Icon name="arrow-right" class="w-4 h-4 text-white opacity-70" />
+						<Icon
+							name="arrow-right"
+							class="w-4 h-4 text-white opacity-70 group-hover:opacity-100 transition-opacity"
+						/>
 					</div>
 				</div>
 			</div>

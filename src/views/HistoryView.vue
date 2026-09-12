@@ -31,6 +31,10 @@ const completedProjects = computed(() => {
 	return list
 })
 
+const pageSize = ref(50)
+
+const displayedProjects = computed(() => completedProjects.value.slice(0, pageSize.value))
+
 function formatDate(dateStr?: string): string {
 	if (!dateStr) return '—'
 	try {
@@ -161,7 +165,7 @@ onMounted(() => {
 			<!-- Строки видео -->
 			<div class="flex flex-col gap-1 w-full">
 				<div
-					v-for="p in completedProjects"
+					v-for="p in displayedProjects"
 					:key="p.id"
 					@click="
 						p.status === 'done'
@@ -259,6 +263,17 @@ onMounted(() => {
 						</template>
 					</div>
 				</div>
+			</div>
+
+			<!-- Кнопка пагинации/подгрузки при большом объеме -->
+			<div v-if="completedProjects.length > pageSize" class="flex justify-center pt-3 pb-4">
+				<button
+					type="button"
+					@click="pageSize += 50"
+					class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-white text-xs font-medium border-none cursor-pointer transition-colors active:scale-[0.98]"
+				>
+					Показать еще 50 (осталось {{ completedProjects.length - pageSize }})
+				</button>
 			</div>
 		</div>
 

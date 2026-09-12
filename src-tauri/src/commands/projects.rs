@@ -331,22 +331,95 @@ pub fn start_batch_generation(
     uniquify: Option<bool>,
     adapt_tts: Option<bool>,
 ) -> Result<Value, String> {
-    let mut started_ids = Vec::new();
-    for file_path in file_paths {
-        if let Ok(res) = start_local_generation(
-            state.clone(),
-            file_path,
-            voice.clone(),
-            tts_base_speed,
-            burn_subtitles,
-            keep_memes,
-            uniquify,
-            adapt_tts,
-        ) {
-            if let Some(id) = res["project_id"].as_str() {
-                started_ids.push(id.to_string());
+    crate::services::worker::ensure_running(&state);
+
+    let keep = keep_memes.unwrap_or(true);
+    let uniq = uniquify.unwrap_or(true);
+    let adapt = adapt_tts.unwrap_or(true);
+
+    let mut project_items = Vec::new();
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis())
+        .unwrap_or(0);
+
+    for (idx, file_path) in file_paths.into_iter().enumerate() {
+        let src_path = std::path::PathBuf::from(&file_path);
+        if !src_path.is_file() {
+            continue;
+        }
+        let file_stem = src_path
+            .file_stem()
+            .map(|s| s.to_string_lossy().into_owned())
+            .unwrap_or_else(|| format!("Video {}", idx + 1));
+
+        let nonce = now + (idx as u128);
+        let project_id = crate::utils::short_id(&format!("local:{}:{nonce}", src_path.display()));
+
+        storage::ensure_project_record(
+            &state,
+            &project_id,
+            &file_stem,
+            "Локальное видео",
+            "",
+            &file_path,
+            keep,
+            uniq,
+            adapt,
+        );
+        project_items.push((project_id, src_path));
+    }
+
+    let started_ids: Vec<String> = project_items.iter().map(|(id, _)| id.clone()).collect();
+    let projects = state.projects.clone();
+    let bin = state.bin.clone();
+    let worker_url = state.worker_url.clone();
+
+    // Process all videos sequentially in ONE background thread to prevent thread/process/disk overload
+    std::thread::spawn(move || {
+        for (pid, src_path) in project_items {
+            let input_dir = projects.join(&pid).join("input");
+            if let Err(e) = std::fs::create_dir_all(&input_dir) {
+                log::error!("create input dir failed: {e}");
+                storage::set_project_error(&projects, &pid, &format!("Ошибка создания папки: {e}"));
+                continue;
+            }
+            let target_video = input_dir.join("src.f616.mp4");
+            if let Err(e) = std::fs::copy(&src_path, &target_video) {
+                log::error!("copy local video failed: {e}");
+                storage::set_project_error(&projects, &pid, &format!("Ошибка копирования видео: {e}"));
+                continue;
+            }
+
+            match downloader::extract_thumbnail(&projects, &pid, &bin) {
+                Ok(_) => {
+                    storage::update_thumbnail(&projects, &pid, &format!("{}/api/thumbnail/{}", worker_url, pid));
+                }
+                Err(e) => log::warn!("thumbnail extract failed for local {pid}: {e}"),
+            }
+
+            let mut payload = json!({
+                "url": format!("file://{}", src_path.display()),
+                "project_id": pid,
+                "keep_memes": keep,
+                "uniquify": uniq,
+                "adapt_tts": adapt,
+            });
+            if let Some(ref v) = voice {
+                payload["voice"] = json!(v);
+            }
+            if let Some(s) = tts_base_speed {
+                payload["tts_base_speed"] = json!(s);
+            }
+            if let Some(b) = burn_subtitles {
+                payload["burn_subtitles"] = json!(b);
+            }
+            if let Err(e) = worker_api::start_processing(&worker_url, &payload) {
+                log::error!("worker generate: {e}");
+                storage::set_project_error(&projects, &pid, &format!("Ошибка запуска воркера: {e}"));
             }
         }
-    }
+    });
+
     Ok(json!({ "started_count": started_ids.len(), "project_ids": started_ids }))
 }
