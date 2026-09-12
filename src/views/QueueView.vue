@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 
 import { filePickerApi, generationApi } from '@/api/projects'
-import { Button, Icon, Kbd } from '@/components/ui'
+import { Button, Icon, Kbd, Switch } from '@/components/ui'
 import { STAGE_NAMES } from '@/constants/project'
 import { useProjectStore } from '@/stores/project'
 import type { ProjectRecord, StageName } from '@/types/project'
@@ -26,9 +26,11 @@ const source = ref<SourceItem | null>(null)
 const isSubmitting = ref(false)
 const inputRef = ref<HTMLInputElement | null>(null)
 
-// Minimalist parameters
+// Pipeline parameters
 const speed = ref(1.12)
 const keepMemes = ref(true)
+const burnSubtitles = ref(false)
+const uniquify = ref(true)
 
 function resetSource() {
 	source.value = null
@@ -93,9 +95,9 @@ async function handleStart() {
 			const res = await generationApi.startLocal({
 				filePath: source.value.path,
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: false,
+				burnSubtitles: burnSubtitles.value,
 				keepMemes: keepMemes.value,
-				uniquify: true,
+				uniquify: uniquify.value,
 				adaptTts: true,
 			})
 			resetSource()
@@ -105,9 +107,9 @@ async function handleStart() {
 			const res = await generationApi.startBatch({
 				filePaths: source.value.files,
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: false,
+				burnSubtitles: burnSubtitles.value,
 				keepMemes: keepMemes.value,
-				uniquify: true,
+				uniquify: uniquify.value,
 				adaptTts: true,
 			})
 			resetSource()
@@ -122,9 +124,9 @@ async function handleStart() {
 				author: '',
 				thumbnail: '',
 				ttsBaseSpeed: speed.value,
-				burnSubtitles: false,
+				burnSubtitles: burnSubtitles.value,
 				keepMemes: keepMemes.value,
-				uniquify: true,
+				uniquify: uniquify.value,
 				adaptTts: true,
 			})
 			resetSource()
@@ -179,152 +181,229 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="w-full flex-1 flex flex-col max-w-3xl mx-auto gap-8 pt-6">
-		<!-- 1. Фокусный Omnibox -->
+	<div class="w-full flex-1 flex flex-col max-w-4xl mx-auto gap-6 pt-2 pb-8 select-none">
+		<!-- 1. Рабочая станция импорта и параметров -->
 		<div
-			class="w-full rounded-2xl flex flex-col p-3 transition-all"
-			style="background: var(--bg-secondary)"
+			class="w-full rounded-xl border flex flex-col overflow-hidden transition-all"
+			style="background: var(--bg-secondary); border-color: var(--border-default)"
 		>
-			<!-- Строка ввода -->
-			<div class="flex items-center gap-3 px-2 py-1">
-				<!-- Токен выбранного файла / папки -->
+			<!-- Верхняя строка импорта -->
+			<div
+				class="flex items-center gap-3 px-4 py-3 border-b"
+				style="border-color: var(--border-divider)"
+			>
+				<!-- Режим выбранного файла / папки -->
 				<div
 					v-if="source"
-					class="flex items-center gap-2 px-2.5 py-1 rounded-lg text-xs"
-					style="background: var(--bg-tertiary); color: var(--text-primary)"
+					class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs flex-1 min-w-0"
+					style="background: var(--bg-tertiary); border: 1px solid var(--border-default)"
 				>
 					<Icon
 						:name="source.type === 'folder' ? 'folder' : 'video'"
-						class="w-4 h-4 text-[var(--accent)]"
+						class="w-4 h-4 text-[var(--accent)] shrink-0"
 					/>
-					<span class="font-medium max-w-xs truncate">{{ source.name }}</span>
-					<span v-if="source.count" class="text-[11px] font-mono text-[var(--text-muted)]">
-						{{ source.count }} видео
+					<span class="font-medium truncate text-white">{{ source.name }}</span>
+					<span
+						v-if="source.count"
+						class="text-[11px] px-1.5 py-0.5 rounded text-[var(--accent)]"
+						style="background: var(--accent-subtle)"
+					>
+						{{ source.count }} файлов
 					</span>
 					<button
 						type="button"
 						@click="resetSource"
-						class="p-0.5 hover:text-white text-[var(--text-muted)] bg-transparent border-none cursor-pointer"
-						title="Сбросить"
+						class="ml-auto p-1 hover:text-white text-[var(--text-muted)] bg-transparent border-none cursor-pointer"
+						title="Сбросить выбор"
 					>
 						<Icon name="close" class="w-3.5 h-3.5" />
 					</button>
 				</div>
 
 				<!-- Поле ввода URL -->
-				<input
-					v-else
-					ref="inputRef"
-					v-model="url"
-					type="text"
-					placeholder="Вставьте ссылку на Shorts, Reels, TikTok или выберите файл..."
-					class="w-full bg-transparent border-none outline-none text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] py-1"
-				/>
+				<div v-else class="flex items-center gap-2 flex-1 min-w-0">
+					<Icon name="search" class="w-4 h-4 text-[var(--text-muted)] shrink-0" />
+					<input
+						ref="inputRef"
+						v-model="url"
+						type="text"
+						placeholder="Вставьте ссылку Shorts, Reels, TikTok или выберите файл на диске..."
+						class="w-full bg-transparent border-none outline-none text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] py-1"
+					/>
+				</div>
 
-				<!-- Иконки выбора файла / папки -->
-				<div class="flex items-center gap-1 shrink-0">
+				<!-- Кнопки выбора с диска -->
+				<div class="flex items-center gap-1.5 shrink-0 pl-2">
 					<button
 						type="button"
 						@click="handlePickFile"
-						class="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
-						title="Выбрать видеофайл (⌘O)"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border border-white/5 cursor-pointer transition-colors"
+						title="Выбрать файл (⌘O)"
 					>
-						<Icon name="video" class="w-4 h-4" />
+						<Icon name="video" class="w-3.5 h-3.5" />
+						<span>Файл</span>
 					</button>
 					<button
 						type="button"
 						@click="handlePickFolder"
-						class="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
+						class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-[var(--text-secondary)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border border-white/5 cursor-pointer transition-colors"
 						title="Выбрать папку (⌘⇧O)"
 					>
-						<Icon name="folder" class="w-4 h-4" />
+						<Icon name="folder" class="w-3.5 h-3.5" />
+						<span>Папка</span>
 					</button>
 				</div>
 			</div>
 
-			<!-- Нижняя строка: кнопка запуска -->
-			<div class="flex items-center justify-end pt-2 px-2 text-xs">
-				<!-- Кнопка запуска перевода (Shadcn Button) -->
-				<Button :disabled="!canStart" @click="handleStart" size="sm" class="gap-2">
-					<Icon v-if="isSubmitting" name="reload" class="w-3.5 h-3.5 animate-spin" />
-					<Icon v-else name="star" class="w-3.5 h-3.5" />
-					<span>{{
-						source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
-					}}</span>
-					<Kbd class="opacity-70 border-black/20 bg-black/10 text-black">⌘↵</Kbd>
-				</Button>
+			<!-- Нижняя панель технических параметров пайплайна -->
+			<div
+				class="flex flex-wrap items-center justify-between gap-4 px-4 py-2.5 text-xs"
+				style="background: var(--bg-tertiary)"
+			>
+				<!-- Левая часть: регуляторы пайплайна -->
+				<div class="flex flex-wrap items-center gap-4 text-[var(--text-secondary)]">
+					<!-- Скорость речи -->
+					<div class="flex items-center gap-1.5">
+						<span class="text-[11px] text-[var(--text-muted)]">Темп:</span>
+						<div
+							class="flex items-center p-0.5 rounded-lg border border-white/5"
+							style="background: var(--bg-secondary)"
+						>
+							<button
+								v-for="s in [1.0, 1.12, 1.25]"
+								:key="s"
+								type="button"
+								@click="speed = s"
+								class="px-2 py-0.5 rounded text-[11px] font-medium border-none cursor-pointer transition-colors"
+								:class="
+									speed === s
+										? 'bg-[var(--bg-tertiary)] text-white'
+										: 'bg-transparent text-[var(--text-muted)] hover:text-white'
+								"
+							>
+								{{ s }}x
+							</button>
+						</div>
+					</div>
+
+					<!-- Разделитель -->
+					<div class="h-3 w-px bg-white/10 hidden sm:block" />
+
+					<!-- Тумблер: Мемы и звуки -->
+					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+						<Switch v-model="keepMemes" />
+						<span class="text-[11px]">Фоновые звуки</span>
+					</label>
+
+					<!-- Тумблер: Субтитры -->
+					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+						<Switch v-model="burnSubtitles" />
+						<span class="text-[11px]">Субтитры</span>
+					</label>
+
+					<!-- Тумблер: Уникализация -->
+					<label class="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+						<Switch v-model="uniquify" />
+						<span class="text-[11px]">Антидетект</span>
+					</label>
+				</div>
+
+				<!-- Правая часть: кнопка запуска -->
+				<div class="flex items-center gap-2 ml-auto">
+					<Button :disabled="!canStart" @click="handleStart" size="sm" class="gap-2">
+						<Icon v-if="isSubmitting" name="reload" class="w-3.5 h-3.5 animate-spin" />
+						<Icon v-else name="play" class="w-3.5 h-3.5" />
+						<span>{{
+							source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
+						}}</span>
+						<Kbd class="opacity-70 border-black/20 bg-black/10 text-black">⌘↵</Kbd>
+					</Button>
+				</div>
 			</div>
 		</div>
 
-		<!-- 2. Очередь активных задач -->
-		<div v-if="activeTasks.length > 0" class="flex flex-col gap-2">
-			<span class="text-xs font-medium text-[var(--text-secondary)] px-1">
-				В обработке ({{ activeTasks.length }})
-			</span>
+		<!-- 2. Секция задач в обработке (Pipeline Queue) -->
+		<div v-if="activeTasks.length > 0" class="flex flex-col gap-2.5">
+			<div class="flex items-center justify-between px-1">
+				<span class="text-xs font-medium text-[var(--text-secondary)]">
+					Очередь обработки ({{ activeTasks.length }})
+				</span>
+			</div>
 
-			<div class="flex flex-col gap-1.5">
+			<div
+				class="w-full rounded-xl border flex flex-col overflow-hidden divide-y divide-white/5"
+				style="background: var(--bg-secondary); border-color: var(--border-default)"
+			>
 				<div
 					v-for="task in activeTasks"
 					:key="task.id"
 					@click="router.push({ name: 'processing', params: { id: task.id } })"
-					class="flex flex-col p-3 rounded-xl cursor-pointer transition-all hover:bg-[var(--bg-tertiary)] relative overflow-hidden"
-					style="background: var(--bg-secondary)"
+					class="flex items-center justify-between p-3.5 cursor-pointer transition-colors hover:bg-[var(--bg-tertiary)] relative"
 				>
-					<div class="flex items-center justify-between">
-						<div class="flex items-center gap-3 min-w-0">
-							<Icon name="video" class="w-4 h-4 text-[var(--accent)] shrink-0" />
+					<div class="flex items-center gap-3 min-w-0 flex-1">
+						<div
+							class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+							style="background: var(--accent-subtle)"
+						>
+							<Icon name="video" class="w-4 h-4 text-[var(--accent)]" />
+						</div>
+						<div class="flex flex-col min-w-0">
 							<span class="text-xs font-medium text-white truncate">
 								{{ task.info?.title || task.id }}
 							</span>
-						</div>
-
-						<div class="flex items-center gap-3 shrink-0 ml-3">
-							<span class="text-[11px] font-mono text-[var(--text-muted)]">
+							<span class="text-[11px] text-[var(--text-muted)] mt-0.5">
 								{{
 									task.current_stage
 										? STAGE_NAMES[task.current_stage as StageName] || task.current_stage
-										: 'Подготовка'
+										: 'Инициализация'
 								}}
 							</span>
-							<span class="text-xs font-mono text-white">{{ getStageProgress(task) }}%</span>
 						</div>
 					</div>
 
-					<!-- Полоса прогресса внизу строки -->
-					<div
-						class="absolute bottom-0 left-0 right-0 h-[2px]"
-						style="background: var(--bg-tertiary)"
-					>
-						<div
-							class="h-full transition-all duration-300"
-							style="background: var(--accent)"
-							:style="{ width: `${getStageProgress(task)}%` }"
-						/>
+					<div class="flex items-center gap-4 shrink-0 ml-4">
+						<div class="w-28 flex flex-col gap-1 items-end">
+							<span class="text-xs text-[var(--text-secondary)] font-medium">
+								{{ getStageProgress(task) }}%
+							</span>
+							<div
+								class="h-1 w-full rounded-full overflow-hidden"
+								style="background: var(--bg-tertiary)"
+							>
+								<div
+									class="h-full transition-all duration-300 rounded-full"
+									style="background: var(--accent)"
+									:style="{ width: `${getStageProgress(task)}%` }"
+								/>
+							</div>
+						</div>
+
+						<Icon name="arrow-right" class="w-4 h-4 text-[var(--text-muted)]" />
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- 3. Недавние готовые видео -->
-		<div v-if="recentDoneTasks.length > 0" class="flex flex-col gap-2">
+		<!-- 3. Недавние готовые результаты (Recent Studio Exports) -->
+		<div v-if="recentDoneTasks.length > 0" class="flex flex-col gap-2.5">
 			<div class="flex items-center justify-between px-1">
-				<span class="text-xs font-medium text-[var(--text-secondary)]"> Недавние </span>
+				<span class="text-xs font-medium text-[var(--text-secondary)]">Готовые видео</span>
 				<button
 					type="button"
 					@click="router.push({ name: 'history' })"
-					class="text-[11px] text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
+					class="text-xs text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
 				>
-					Все →
+					Вся история →
 				</button>
 			</div>
 
-			<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+			<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
 				<div
 					v-for="done in recentDoneTasks"
 					:key="done.id"
 					@click="router.push({ name: 'result', params: { id: done.id } })"
-					class="flex flex-col p-2 rounded-xl cursor-pointer transition-all hover:bg-[var(--bg-tertiary)] group"
-					style="background: var(--bg-secondary)"
+					class="flex flex-col p-2.5 rounded-xl border cursor-pointer transition-all hover:border-white/20 group"
+					style="background: var(--bg-secondary); border-color: var(--border-default)"
 				>
 					<div
 						class="w-full aspect-[9/16] max-h-36 rounded-lg mb-2 overflow-hidden flex items-center justify-center relative"
@@ -333,16 +412,20 @@ onUnmounted(() => {
 						<img
 							v-if="done.info?.thumbnail"
 							:src="done.info.thumbnail"
-							class="w-full h-full object-cover"
+							class="w-full h-full object-cover transition-transform group-hover:scale-105"
 						/>
 						<Icon v-else name="video" class="w-6 h-6 text-[var(--text-muted)]" />
 						<div
 							class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 						>
-							<Icon name="play" class="w-5 h-5 text-white" />
+							<div
+								class="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--accent)] text-black"
+							>
+								<Icon name="play" class="w-4 h-4 ml-0.5 text-black" />
+							</div>
 						</div>
 					</div>
-					<span class="text-xs text-white truncate">
+					<span class="text-xs text-white truncate font-medium">
 						{{ done.info?.title || done.id }}
 					</span>
 				</div>
