@@ -141,7 +141,7 @@ onMounted(() => {
 		<div v-if="completedProjects.length > 0" class="flex flex-col w-full">
 			<!-- Заголовки колонок -->
 			<div
-				class="grid grid-cols-12 items-center px-4 py-2.5 text-[11px] font-medium text-[var(--text-secondary)] border-none"
+				class="grid grid-cols-12 items-center px-4 py-2 text-[11px] font-medium text-[var(--text-muted)] border-none"
 			>
 				<div class="col-span-7 sm:col-span-6">Видео</div>
 				<div class="col-span-3 sm:col-span-3">Статус</div>
@@ -150,7 +150,7 @@ onMounted(() => {
 			</div>
 
 			<!-- Строки видео -->
-			<div class="flex flex-col gap-1.5 w-full">
+			<div class="flex flex-col gap-1 w-full">
 				<div
 					v-for="p in completedProjects"
 					:key="p.id"
@@ -165,7 +165,7 @@ onMounted(() => {
 					<div class="col-span-7 sm:col-span-6 flex items-center gap-3.5 min-w-0 pr-3">
 						<!-- Превью ролика -->
 						<div
-							class="w-24 sm:w-28 aspect-video rounded-xl overflow-hidden shrink-0 relative flex items-center justify-center bg-[var(--bg-secondary)]"
+							class="w-24 sm:w-28 aspect-video rounded-xl overflow-hidden shrink-0 relative flex items-center justify-center bg-white/5"
 						>
 							<img
 								v-if="p.info?.thumbnail"
@@ -215,10 +215,10 @@ onMounted(() => {
 					</div>
 
 					<!-- Колонка статуса -->
-					<div class="col-span-3 sm:col-span-3 flex items-center">
+					<div class="col-span-3 sm:col-span-3 flex items-center text-xs">
 						<span
-							class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium"
-							:class="p.status === 'done' ? 'bg-white/10 text-white' : 'bg-red-500/15 text-red-300'"
+							class="inline-flex items-center gap-1.5"
+							:class="p.status === 'done' ? 'text-white' : 'text-red-400'"
 						>
 							<span
 								class="w-1.5 h-1.5 rounded-full"

@@ -30,14 +30,14 @@
 }
 
 :root {
-	/* YouTube Studio Dark Mode (#0f0f0f Base) */
+	/* Minimal YouTube Studio Dark Theme (#0f0f0f Canvas) */
 	--bg-primary: #0f0f0f;
 	--bg-sidebar: #0f0f0f;
-	--bg-secondary: #212121;
-	--bg-tertiary: #181818;
+	--bg-secondary: #181818;
+	--bg-tertiary: #222222;
 	--bg-elevated: #282828;
-	--bg-hover: #383838;
-	--bg-active: #484848;
+	--bg-hover: #2e2e2e;
+	--bg-active: #383838;
 
 	--border-default: transparent;
 	--border-subtle: transparent;

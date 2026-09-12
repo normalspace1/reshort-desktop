@@ -96,7 +96,7 @@ const commands = computed<CommandItem[]>(() => {
 		},
 		{
 			id: 'goto-history',
-			title: 'Перейти в историю',
+			title: 'Перейти в Контент',
 			subtitle: `${store.historyCount} готовых видео`,
 			icon: 'recent',
 			shortcut: '⌘2',
