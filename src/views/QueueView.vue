@@ -170,6 +170,26 @@ function handleKeyDown(e: KeyboardEvent) {
 	}
 }
 
+const isVerticalMap = ref<Record<string, boolean>>({})
+
+function onImgLoad(e: Event, id: string) {
+	const img = e.target as HTMLImageElement
+	if (img && img.naturalWidth && img.naturalHeight) {
+		isVerticalMap.value[id] = img.naturalHeight > img.naturalWidth
+	}
+}
+
+function isVertical(p: any): boolean {
+	if (isVerticalMap.value[p.id] !== undefined) {
+		return isVerticalMap.value[p.id]
+	}
+	if (p.info?.resolution) {
+		const [w, h] = p.info.resolution.split('x').map(Number)
+		if (w && h) return h > w
+	}
+	return true
+}
+
 onMounted(() => {
 	inputRef.value?.focus()
 	window.addEventListener('keydown', handleKeyDown)
@@ -382,11 +402,13 @@ onUnmounted(() => {
 					style="background: var(--bg-secondary)"
 				>
 					<div
-						class="w-20 aspect-video rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative bg-white/5"
+						class="h-14 rounded-lg overflow-hidden shrink-0 flex items-center justify-center relative bg-black/60"
+						:class="isVertical(done) ? 'w-9 aspect-[9/16]' : 'w-20 aspect-video'"
 					>
 						<img
 							v-if="done.info?.thumbnail"
 							:src="done.info.thumbnail"
+							@load="onImgLoad($event, done.id)"
 							class="w-full h-full object-cover"
 						/>
 						<Icon v-else name="video" class="w-4 h-4 text-white" />

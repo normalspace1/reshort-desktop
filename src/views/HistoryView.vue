@@ -53,6 +53,27 @@ function formatDate(dateStr?: string): string {
 	}
 }
 
+const isVerticalMap = ref<Record<string, boolean>>({})
+
+function onImgLoad(e: Event, id: string) {
+	const img = e.target as HTMLImageElement
+	if (img && img.naturalWidth && img.naturalHeight) {
+		isVerticalMap.value[id] = img.naturalHeight > img.naturalWidth
+	}
+}
+
+function isVertical(p: any): boolean {
+	if (isVerticalMap.value[p.id] !== undefined) {
+		return isVerticalMap.value[p.id]
+	}
+	if (p.info?.resolution) {
+		const [w, h] = p.info.resolution.split('x').map(Number)
+		if (w && h) return h > w
+	}
+	// ReShort targets Shorts/Reels/TikTok by default
+	return true
+}
+
 async function handleDelete(id: string, e: Event) {
 	e.stopPropagation()
 	if (confirm('Удалить видео и связанные файлы?')) {
@@ -163,21 +184,23 @@ onMounted(() => {
 				>
 					<!-- Колонка видео (Превью + Название + Метаданные) -->
 					<div class="col-span-7 sm:col-span-6 flex items-center gap-3.5 min-w-0 pr-3">
-						<!-- Превью ролика -->
+						<!-- Превью ролика: адаптировано под вертикальные 9:16 Shorts/Reels и горизонтальные 16:9 -->
 						<div
-							class="w-24 sm:w-28 aspect-video rounded-xl overflow-hidden shrink-0 relative flex items-center justify-center bg-white/5"
+							class="h-16 rounded-xl overflow-hidden shrink-0 relative flex items-center justify-center bg-black/60"
+							:class="isVertical(p) ? 'w-10 sm:w-11 aspect-[9/16]' : 'w-24 sm:w-28 aspect-video'"
 						>
 							<img
 								v-if="p.info?.thumbnail"
 								:src="p.info.thumbnail"
+								@load="onImgLoad($event, p.id)"
 								class="w-full h-full object-cover transition-transform group-hover:scale-105"
 							/>
 							<Icon v-else name="video" class="w-5 h-5 text-white" />
 
-							<!-- Бейдж таймкода в правом нижнем углу (как на YouTube) -->
+							<!-- Бейдж таймкода в правом нижнем углу -->
 							<span
 								v-if="p.info?.duration"
-								class="absolute bottom-1 right-1 bg-black/85 text-white font-mono text-[10px] px-1.5 py-0.2 rounded font-medium"
+								class="absolute bottom-1 right-1 bg-black/85 text-white font-mono text-[9px] px-1 py-0.2 rounded font-medium leading-none"
 							>
 								{{ formatDuration(p.info.duration) }}
 							</span>
@@ -187,7 +210,7 @@ onMounted(() => {
 								v-if="p.status === 'done'"
 								class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 							>
-								<Icon name="play" class="w-5 h-5 text-white" />
+								<Icon name="play" class="w-4 h-4 text-white" />
 							</div>
 						</div>
 
@@ -214,17 +237,10 @@ onMounted(() => {
 						</div>
 					</div>
 
-					<!-- Колонка статуса -->
+					<!-- Колонка статуса (без лишних точек) -->
 					<div class="col-span-3 sm:col-span-3 flex items-center text-xs">
-						<span
-							class="inline-flex items-center gap-1.5"
-							:class="p.status === 'done' ? 'text-white' : 'text-red-400'"
-						>
-							<span
-								class="w-1.5 h-1.5 rounded-full"
-								:class="p.status === 'done' ? 'bg-white' : 'bg-red-400'"
-							/>
-							<span>{{ p.status === 'done' ? 'Готово' : 'Ошибка' }}</span>
+						<span :class="p.status === 'done' ? 'text-white' : 'text-red-400'">
+							{{ p.status === 'done' ? 'Готово' : 'Ошибка' }}
 						</span>
 					</div>
 
