@@ -61,7 +61,7 @@ onMounted(() => {
 				class="flex items-center gap-1.5 text-xs text-white hover:opacity-80 bg-transparent border-none cursor-pointer transition-colors p-0"
 			>
 				<Icon name="arrow-left" class="w-3.5 h-3.5 text-white" />
-				<span>История</span>
+				<span>Контент</span>
 			</button>
 
 			<span class="text-xs text-[var(--text-muted)] font-mono truncate max-w-[200px]">

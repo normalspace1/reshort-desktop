@@ -30,7 +30,7 @@ const router = createRouter({
 			path: '/history',
 			name: 'history',
 			component: () => import('@/views/HistoryView.vue'),
-			meta: { title: 'История' },
+			meta: { title: 'Контент' },
 		},
 		{ path: '/presets', redirect: '/queue' },
 		{ path: '/settings', redirect: '/queue' },

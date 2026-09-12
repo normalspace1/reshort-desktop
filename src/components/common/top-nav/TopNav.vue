@@ -50,7 +50,7 @@ function navigateTo(name: string) {
 				</span>
 			</button>
 
-			<!-- History -->
+			<!-- Content (YouTube Studio Style) -->
 			<button
 				type="button"
 				@click="navigateTo('history')"
@@ -61,7 +61,7 @@ function navigateTo(name: string) {
 						: 'bg-transparent text-[var(--text-secondary)] hover:text-white'
 				"
 			>
-				<span>История</span>
+				<span>Контент</span>
 				<span
 					v-if="store.historyCount > 0"
 					class="text-[10px] font-mono px-1.5 py-0.5 rounded-full ml-0.5"

@@ -380,7 +380,7 @@ onUnmounted(() => {
 					@click="router.push({ name: 'history' })"
 					class="text-xs text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
 				>
-					Вся история →
+					Весь контент →
 				</button>
 			</div>
 
