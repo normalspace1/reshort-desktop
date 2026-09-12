@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { CommandPalette, Sonner, TopNav } from '@/components/common'
+import { CommandPalette, Sidebar, Sonner } from '@/components/common'
 import { Icon } from '@/components/ui'
 import { useProjectStore } from '@/stores/project'
 import LaunchView from '@/views/LaunchView.vue'
@@ -96,17 +96,17 @@ onUnmounted(() => {
 		</div>
 
 		<!-- Main app (after setup) -->
-		<div v-else class="flex flex-col flex-1 min-h-0 w-full">
-			<!-- macOS-style Top Navigation Bar -->
-			<TopNav />
+		<div v-else class="flex flex-1 min-h-0 w-full overflow-hidden">
+			<!-- YouTube Studio Left Navigation Sidebar -->
+			<Sidebar />
 
-			<!-- Main Content Area (Full width) -->
+			<!-- Main Content Area -->
 			<main
 				class="flex-1 overflow-y-auto relative flex flex-col w-full"
 				style="background-color: var(--bg-primary)"
 			>
 				<!-- Routed content -->
-				<div class="w-full flex-1 flex flex-col px-8 pb-8 pt-2">
+				<div class="w-full flex-1 flex flex-col px-8 pb-8 pt-6">
 					<router-view v-slot="{ Component }">
 						<KeepAlive>
 							<component :is="Component" />
