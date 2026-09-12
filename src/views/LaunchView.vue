@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue'
-import { CheckCircle2Icon, Loader2Icon } from '@lucide/vue'
+import { Icon } from '@/components/ui'
 
 import { setupApi } from '@/api/setup'
 import { useSetup } from '@/composables/useSetup'
@@ -93,7 +93,7 @@ watch(
 				class="flex items-center gap-2"
 				style="color: var(--text-muted)"
 			>
-				<Loader2Icon class="w-4 h-4 animate-spin" />
+				<Icon name="reload" class="w-4 h-4 animate-spin" />
 				<span class="text-sm">Проверка…</span>
 			</div>
 
@@ -105,8 +105,8 @@ watch(
 						class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-colors"
 						:style="chipStyles[m.id]"
 					>
-						<Loader2Icon v-if="isActive(m.id)" class="w-3 h-3 animate-spin" />
-						<CheckCircle2Icon v-else-if="m.ok" class="w-3 h-3" />
+						<Icon v-if="isActive(m.id)" name="reload" class="w-3 h-3 animate-spin" />
+						<Icon v-else-if="m.ok" name="check-filled" class="w-3 h-3" />
 						<span v-else class="w-1.5 h-1.5 rounded-full" style="background: currentColor" />
 						{{ m.label }}
 					</span>
@@ -128,7 +128,7 @@ watch(
 					</button>
 				</div>
 				<div v-else class="flex items-center gap-2" style="color: var(--text-muted)">
-					<Loader2Icon class="w-4 h-4 animate-spin" />
+					<Icon name="reload" class="w-4 h-4 animate-spin" />
 					<span class="text-sm">Проверка…</span>
 				</div>
 			</div>

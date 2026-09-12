@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { FolderIcon, HistoryIcon, LayersIcon, PlusIcon, SearchIcon, VideoIcon } from '@lucide/vue'
+import { Icon } from '@/components/ui'
 
 import { filePickerApi } from '@/api/projects'
 import { useProjectStore } from '@/stores/project'
@@ -22,7 +22,7 @@ interface CommandItem {
 	id: string
 	title: string
 	subtitle?: string
-	icon: any
+	icon: string
 	shortcut?: string
 	category: 'Создание' | 'Навигация'
 	action: () => void | Promise<void>
@@ -34,7 +34,7 @@ const commands = computed<CommandItem[]>(() => {
 			id: 'new',
 			title: 'Новый проект дубляжа',
 			subtitle: 'Вставить ссылку или выбрать файл',
-			icon: PlusIcon,
+			icon: 'add',
 			shortcut: '⌘N',
 			category: 'Создание',
 			action: () => {
@@ -46,7 +46,7 @@ const commands = computed<CommandItem[]>(() => {
 			id: 'open-file',
 			title: 'Выбрать видеофайл...',
 			subtitle: 'MP4, MOV, MKV, WebM',
-			icon: VideoIcon,
+			icon: 'video',
 			shortcut: '⌘O',
 			category: 'Создание',
 			action: async () => {
@@ -66,7 +66,7 @@ const commands = computed<CommandItem[]>(() => {
 			id: 'open-folder',
 			title: 'Выбрать папку (пакетный дубляж)...',
 			subtitle: 'Перевести все ролики в папке',
-			icon: FolderIcon,
+			icon: 'folder',
 			shortcut: '⌘⇧O',
 			category: 'Создание',
 			action: async () => {
@@ -86,7 +86,7 @@ const commands = computed<CommandItem[]>(() => {
 			id: 'goto-queue',
 			title: 'Перейти в очередь',
 			subtitle: `${store.queueCount} активных задач`,
-			icon: LayersIcon,
+			icon: 'channel',
 			shortcut: '⌘1',
 			category: 'Навигация',
 			action: () => {
@@ -98,7 +98,7 @@ const commands = computed<CommandItem[]>(() => {
 			id: 'goto-history',
 			title: 'Перейти в историю',
 			subtitle: `${store.historyCount} готовых видео`,
-			icon: HistoryIcon,
+			icon: 'recent',
 			shortcut: '⌘2',
 			category: 'Навигация',
 			action: () => {
@@ -171,7 +171,7 @@ onUnmounted(() => {
 				class="flex items-center gap-3 px-4 py-3.5 border-b"
 				style="border-color: var(--border-divider)"
 			>
-				<SearchIcon class="w-4 h-4 text-[var(--text-muted)]" />
+				<Icon name="search" class="w-4 h-4 text-[var(--text-muted)]" />
 				<input
 					ref="searchInput"
 					v-model="query"
@@ -207,8 +207,8 @@ onUnmounted(() => {
 					"
 				>
 					<div class="flex items-center gap-3 min-w-0">
-						<component
-							:is="item.icon"
+						<Icon
+							:name="item.icon"
 							class="w-4 h-4 shrink-0"
 							:class="selectedIndex === idx ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'"
 						/>

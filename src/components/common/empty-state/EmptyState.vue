@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
+import { Icon } from '@/components/ui'
 
 interface Props {
-	icon?: Component
+	icon?: Component | string
 	title: string
 	description?: string
 }
@@ -18,7 +19,8 @@ defineProps<Props>()
 			v-if="icon"
 			class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-[var(--text-muted)] mb-3"
 		>
-			<component :is="icon" class="w-5 h-5" />
+			<Icon v-if="typeof icon === 'string'" :name="icon" class="w-5 h-5" />
+			<component :is="icon" v-else class="w-5 h-5" />
 		</div>
 		<h3 class="text-sm font-medium text-white m-0">{{ title }}</h3>
 		<p v-if="description" class="text-xs text-[var(--text-muted)] mt-1.5 max-w-sm m-0">

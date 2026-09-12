@@ -1,15 +1,8 @@
 <script lang="ts" setup>
-import {
-	CircleCheckIcon,
-	InfoIcon,
-	Loader2Icon,
-	OctagonXIcon,
-	TriangleAlertIcon,
-	XIcon,
-} from '@lucide/vue'
 import { reactiveOmit } from '@vueuse/core'
 import { Toaster as Sonner, type ToasterProps } from 'vue-sonner'
 
+import { Icon } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
 const props = defineProps<ToasterProps>()
@@ -50,24 +43,24 @@ const delegatedProps = reactiveOmit(props, 'class', 'toastOptions')
 		v-bind="delegatedProps"
 	>
 		<template #success-icon>
-			<CircleCheckIcon class="w-3.5 h-3.5 text-[#0A84FF]" />
+			<Icon name="check-filled" class="w-3.5 h-3.5 text-[#0A84FF]" />
 		</template>
 		<template #info-icon>
-			<InfoIcon class="w-3.5 h-3.5 text-[#0A84FF]" />
+			<Icon name="info-filled" class="w-3.5 h-3.5 text-[#0A84FF]" />
 		</template>
 		<template #warning-icon>
-			<TriangleAlertIcon class="w-3.5 h-3.5 text-[#F59E0B]" />
+			<Icon name="warning" class="w-3.5 h-3.5 text-[#F59E0B]" />
 		</template>
 		<template #error-icon>
-			<OctagonXIcon class="w-3.5 h-3.5 text-[#E63946]" />
+			<Icon name="close-circle" class="w-3.5 h-3.5 text-[#E63946]" />
 		</template>
 		<template #loading-icon>
 			<div class="text-[var(--text-primary)]">
-				<Loader2Icon class="w-3.5 h-3.5 animate-spin" />
+				<Icon name="reload" class="w-3.5 h-3.5 animate-spin" />
 			</div>
 		</template>
 		<template #close-icon>
-			<XIcon class="w-3 h-3 opacity-70 hover:opacity-100" />
+			<Icon name="close" class="w-3 h-3 opacity-70 hover:opacity-100" />
 		</template>
 	</Sonner>
 </template>

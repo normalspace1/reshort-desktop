@@ -2,10 +2,9 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
-import { FileVideoIcon, FolderIcon, Loader2Icon, PlayIcon, SparklesIcon, XIcon } from '@lucide/vue'
 
 import { filePickerApi, generationApi } from '@/api/projects'
-import { Button, Kbd } from '@/components/ui'
+import { Button, Icon, Kbd } from '@/components/ui'
 import { STAGE_NAMES } from '@/constants/project'
 import { useProjectStore } from '@/stores/project'
 import type { ProjectRecord, StageName } from '@/types/project'
@@ -194,8 +193,8 @@ onUnmounted(() => {
 					class="flex items-center gap-2 px-2.5 py-1 rounded-lg text-xs"
 					style="background: var(--bg-tertiary); color: var(--text-primary)"
 				>
-					<component
-						:is="source.type === 'folder' ? FolderIcon : FileVideoIcon"
+					<Icon
+						:name="source.type === 'folder' ? 'folder' : 'video'"
 						class="w-4 h-4 text-[var(--accent)]"
 					/>
 					<span class="font-medium max-w-xs truncate">{{ source.name }}</span>
@@ -208,7 +207,7 @@ onUnmounted(() => {
 						class="p-0.5 hover:text-white text-[var(--text-muted)] bg-transparent border-none cursor-pointer"
 						title="Сбросить"
 					>
-						<XIcon class="w-3.5 h-3.5" />
+						<Icon name="close" class="w-3.5 h-3.5" />
 					</button>
 				</div>
 
@@ -230,7 +229,7 @@ onUnmounted(() => {
 						class="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать видеофайл (⌘O)"
 					>
-						<FileVideoIcon class="w-4 h-4" />
+						<Icon name="video" class="w-4 h-4" />
 					</button>
 					<button
 						type="button"
@@ -238,7 +237,7 @@ onUnmounted(() => {
 						class="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-white hover:bg-[var(--bg-tertiary)] bg-transparent border-none cursor-pointer transition-colors"
 						title="Выбрать папку (⌘⇧O)"
 					>
-						<FolderIcon class="w-4 h-4" />
+						<Icon name="folder" class="w-4 h-4" />
 					</button>
 				</div>
 			</div>
@@ -247,8 +246,8 @@ onUnmounted(() => {
 			<div class="flex items-center justify-end pt-2 px-2 text-xs">
 				<!-- Кнопка запуска перевода (Shadcn Button) -->
 				<Button :disabled="!canStart" @click="handleStart" size="sm" class="gap-2">
-					<Loader2Icon v-if="isSubmitting" class="w-3.5 h-3.5 animate-spin" />
-					<SparklesIcon v-else class="w-3.5 h-3.5" />
+					<Icon v-if="isSubmitting" name="reload" class="w-3.5 h-3.5 animate-spin" />
+					<Icon v-else name="star" class="w-3.5 h-3.5" />
 					<span>{{
 						source?.type === 'folder' ? `Перевести ${source.count} видео` : 'Перевести видео'
 					}}</span>
@@ -338,11 +337,11 @@ onUnmounted(() => {
 							:src="done.info.thumbnail"
 							class="w-full h-full object-cover"
 						/>
-						<FileVideoIcon v-else class="w-6 h-6 text-[var(--text-muted)]" />
+						<Icon v-else name="video" class="w-6 h-6 text-[var(--text-muted)]" />
 						<div
 							class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 						>
-							<PlayIcon class="w-5 h-5 text-white fill-white" />
+							<Icon name="play" class="w-5 h-5 text-white" />
 						</div>
 					</div>
 					<span class="text-xs text-white truncate">

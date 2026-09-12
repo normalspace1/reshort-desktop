@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
-import { UploadCloudIcon } from '@lucide/vue'
-
 import { CommandPalette, Sonner, TopNav } from '@/components/common'
+import { Icon } from '@/components/ui'
 import { useProjectStore } from '@/stores/project'
 import LaunchView from '@/views/LaunchView.vue'
 
@@ -134,7 +133,7 @@ onUnmounted(() => {
 					class="w-16 h-16 rounded-2xl flex items-center justify-center"
 					style="background: var(--accent-subtle)"
 				>
-					<UploadCloudIcon class="w-8 h-8 text-[var(--accent)]" />
+					<Icon name="cloud-download" class="w-8 h-8 text-[var(--accent)]" />
 				</div>
 				<div>
 					<h3 class="text-base font-semibold text-white">Перетащите видео или папку сюда</h3>

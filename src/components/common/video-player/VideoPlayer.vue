@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Maximize2Icon, PauseIcon, PlayIcon, Volume2Icon, VolumeXIcon } from '@lucide/vue'
+import { Icon } from '@/components/ui'
 
 interface Props {
 	src: string
@@ -99,7 +99,7 @@ defineExpose({
 			@click="togglePlay"
 			class="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white cursor-pointer hover:scale-110 active:scale-95 transition-all z-10"
 		>
-			<PlayIcon class="w-6 h-6 ml-0.5 fill-white text-white" />
+			<Icon name="play" class="w-6 h-6 ml-0.5 text-white" />
 		</button>
 
 		<!-- Панель управления видео (всплывает при наведении) -->
@@ -125,8 +125,7 @@ defineExpose({
 						@click="togglePlay"
 						class="text-white hover:text-[var(--accent)] bg-transparent border-none cursor-pointer p-0"
 					>
-						<PauseIcon v-if="isPlaying" class="w-4 h-4 fill-white" />
-						<PlayIcon v-else class="w-4 h-4 fill-white" />
+						<Icon :name="isPlaying ? 'pause' : 'play'" class="w-4 h-4 text-white" />
 					</button>
 
 					<button
@@ -134,8 +133,7 @@ defineExpose({
 						@click="toggleMute"
 						class="text-white hover:text-[var(--accent)] bg-transparent border-none cursor-pointer p-0"
 					>
-						<VolumeXIcon v-if="isMuted" class="w-4 h-4" />
-						<Volume2Icon v-else class="w-4 h-4" />
+						<Icon :name="isMuted ? 'muted' : 'volume-2'" class="w-4 h-4 text-white" />
 					</button>
 
 					<span class="text-[10px] font-mono text-[var(--text-muted)]">
@@ -148,7 +146,7 @@ defineExpose({
 					@click="toggleFullscreen"
 					class="text-white hover:text-[var(--accent)] bg-transparent border-none cursor-pointer p-0"
 				>
-					<Maximize2Icon class="w-3.5 h-3.5" />
+					<Icon name="fullscreen" class="w-3.5 h-3.5 text-white" />
 				</button>
 			</div>
 		</div>

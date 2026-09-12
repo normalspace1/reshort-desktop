@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ArrowLeftIcon, DownloadIcon, FileVideoIcon, FolderIcon, RotateCcwIcon } from '@lucide/vue'
-
 import { projectsApi } from '@/api/projects'
 import { VideoPlayer } from '@/components/common'
-import { Button } from '@/components/ui'
+import { Button, Icon } from '@/components/ui'
 import { useProjectStore } from '@/stores/project'
 import type { ProjectRecord } from '@/types/project'
 
@@ -62,7 +60,7 @@ onMounted(() => {
 				@click="router.push({ name: 'history' })"
 				class="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer transition-colors p-0"
 			>
-				<ArrowLeftIcon class="w-3.5 h-3.5" />
+				<Icon name="arrow-left" class="w-3.5 h-3.5" />
 				<span>История</span>
 			</button>
 
@@ -76,7 +74,7 @@ onMounted(() => {
 				class="text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer p-0"
 				title="Показать в проводнике"
 			>
-				<FolderIcon class="w-4 h-4" />
+				<Icon name="folder" class="w-4 h-4" />
 			</button>
 		</div>
 
@@ -85,7 +83,7 @@ onMounted(() => {
 			v-if="!videoUrl && isLoadingVideo"
 			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
 		>
-			<FileVideoIcon class="w-8 h-8" />
+			<Icon name="video" class="w-8 h-8" />
 			<span class="text-xs">Загрузка видео...</span>
 		</div>
 		<VideoPlayer v-else-if="videoUrl" :src="videoUrl" />
@@ -93,7 +91,7 @@ onMounted(() => {
 			v-else
 			class="w-full max-w-[280px] aspect-[9/16] rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center text-[var(--text-muted)] gap-2 shadow-2xl"
 		>
-			<FileVideoIcon class="w-8 h-8" />
+			<Icon name="video" class="w-8 h-8" />
 			<span class="text-xs">Файл видео не найден</span>
 		</div>
 
@@ -101,7 +99,7 @@ onMounted(() => {
 		<div class="flex items-center gap-2 w-full max-w-[280px]">
 			<a v-if="videoUrl" :href="videoUrl" download="dubbed.mp4" class="flex-1 no-underline">
 				<Button class="w-full gap-2">
-					<DownloadIcon class="w-3.5 h-3.5" />
+					<Icon name="download" class="w-3.5 h-3.5" />
 					<span>Скачать MP4</span>
 				</Button>
 			</a>
@@ -112,7 +110,7 @@ onMounted(() => {
 				@click="router.push({ name: 'queue' })"
 				title="Перевести новое видео"
 			>
-				<RotateCcwIcon class="w-4 h-4" />
+				<Icon name="reload" class="w-4 h-4" />
 			</Button>
 		</div>
 	</div>

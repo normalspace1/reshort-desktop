@@ -2,11 +2,9 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
-import { FileVideoIcon, FolderIcon, PlayIcon, SearchIcon, Trash2Icon } from '@lucide/vue'
-
 import { projectsApi } from '@/api/projects'
 import { EmptyState } from '@/components/common'
-import { Button, Input } from '@/components/ui'
+import { Button, Icon, Input } from '@/components/ui'
 import { useProjectStore } from '@/stores/project'
 
 const router = useRouter()
@@ -65,7 +63,8 @@ onMounted(() => {
 		<div class="flex items-center justify-between gap-3">
 			<!-- Поле поиска (Shadcn Input) -->
 			<div class="relative w-64">
-				<SearchIcon
+				<Icon
+					name="search"
 					class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-muted)] pointer-events-none"
 				/>
 				<Input v-model="searchQuery" placeholder="Поиск по названию..." class="pl-9" />
@@ -138,14 +137,14 @@ onMounted(() => {
 						:src="p.info.thumbnail"
 						class="w-full h-full object-cover transition-transform group-hover:scale-105"
 					/>
-					<FileVideoIcon v-else class="w-6 h-6 text-[var(--text-muted)]" />
+					<Icon v-else name="video" class="w-6 h-6 text-[var(--text-muted)]" />
 
 					<!-- Оверлей воспроизведения при наведении -->
 					<div
 						v-if="p.status === 'done'"
 						class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 					>
-						<PlayIcon class="w-6 h-6 text-white fill-white" />
+						<Icon name="play" class="w-6 h-6 text-white" />
 					</div>
 				</div>
 
@@ -162,7 +161,7 @@ onMounted(() => {
 							class="p-0.5 text-[var(--text-muted)] hover:text-white bg-transparent border-none cursor-pointer"
 							title="Показать в проводнике"
 						>
-							<FolderIcon class="w-3.5 h-3.5" />
+							<Icon name="folder" class="w-3.5 h-3.5" />
 						</button>
 						<button
 							type="button"
@@ -170,7 +169,7 @@ onMounted(() => {
 							class="p-0.5 text-[var(--text-muted)] hover:text-[#f87171] bg-transparent border-none cursor-pointer"
 							title="Удалить"
 						>
-							<Trash2Icon class="w-3.5 h-3.5" />
+							<Icon name="delete" class="w-3.5 h-3.5" />
 						</button>
 					</div>
 				</div>
@@ -180,7 +179,7 @@ onMounted(() => {
 		<!-- Пустое состояние (компонент EmptyState) -->
 		<EmptyState
 			v-else
-			:icon="FileVideoIcon"
+			icon="video"
 			title="История пока пуста"
 			:description="
 				searchQuery
