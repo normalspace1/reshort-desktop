@@ -71,7 +71,7 @@ const svgContent = computed(() => {
 	/>
 	<span
 		v-else
-		:class="cn('inline-block w-4 h-4 bg-white/10 rounded', props.class)"
+		:class="cn('inline-block w-4 h-4 bg-transparent', props.class)"
 		:title="`Icon not found: ${name}`"
 	/>
 </template>

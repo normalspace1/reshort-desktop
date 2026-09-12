@@ -106,7 +106,7 @@ watch(
 						:style="chipStyles[m.id]"
 					>
 						<Icon v-if="isActive(m.id)" name="reload" class="w-3 h-3 animate-spin" />
-						<Icon v-else-if="m.ok" name="check-filled" class="w-3 h-3" />
+						<Icon v-else-if="m.ok" name="check" class="w-3 h-3" />
 						<span v-else class="w-1.5 h-1.5 rounded-full" style="background: currentColor" />
 						{{ m.label }}
 					</span>

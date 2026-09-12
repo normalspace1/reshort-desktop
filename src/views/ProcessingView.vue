@@ -125,11 +125,10 @@ onMounted(() => {
 				class="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer"
 				@click="router.push({ name: 'result', params: { id: projectId } })"
 			>
-				<div
-					class="w-12 h-12 rounded-full flex items-center justify-center bg-[var(--accent)] text-black shadow-lg shadow-amber-500/25 transition-transform hover:scale-105"
-				>
-					<Icon name="play" class="w-6 h-6 ml-0.5 text-black" />
-				</div>
+				<Icon
+					name="play"
+					class="w-14 h-14 text-white drop-shadow-xl transition-transform hover:scale-110"
+				/>
 			</div>
 		</div>
 

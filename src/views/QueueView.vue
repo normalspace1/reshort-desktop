@@ -333,12 +333,7 @@ onUnmounted(() => {
 					style="background: var(--bg-secondary)"
 				>
 					<div class="flex items-center gap-3 min-w-0 flex-1">
-						<div
-							class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-							style="background: var(--accent-subtle)"
-						>
-							<Icon name="video" class="w-4 h-4 text-[var(--accent)]" />
-						</div>
+						<Icon name="video" class="w-5 h-5 text-[var(--accent)] shrink-0" />
 						<div class="flex flex-col min-w-0">
 							<span class="text-xs font-medium text-white truncate">
 								{{ task.info?.title || task.id }}
@@ -410,11 +405,7 @@ onUnmounted(() => {
 						<div
 							class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"
 						>
-							<div
-								class="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--accent)] text-black"
-							>
-								<Icon name="play" class="w-4 h-4 ml-0.5 text-black" />
-							</div>
+							<Icon name="play" class="w-8 h-8 text-white drop-shadow-md" />
 						</div>
 					</div>
 					<span class="text-xs text-white truncate font-medium">

@@ -123,18 +123,13 @@ onUnmounted(() => {
 		<div
 			v-if="store.isDraggingFile"
 			class="fixed inset-0 z-50 flex items-center justify-center p-8 pointer-events-none"
-			style="background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(10px)"
+			style="background: rgba(5, 5, 5, 0.88); backdrop-filter: blur(12px)"
 		>
 			<div
-				class="w-full max-w-lg aspect-video rounded-3xl border-2 border-dashed flex flex-col items-center justify-center gap-4 text-center"
-				style="border-color: var(--accent); background: rgba(16, 16, 16, 0.9)"
+				class="w-full max-w-lg aspect-video rounded-3xl flex flex-col items-center justify-center gap-4 text-center"
+				style="background: var(--bg-secondary)"
 			>
-				<div
-					class="w-16 h-16 rounded-2xl flex items-center justify-center"
-					style="background: var(--accent-subtle)"
-				>
-					<Icon name="cloud-download" class="w-8 h-8 text-[var(--accent)]" />
-				</div>
+				<Icon name="cloud-download" class="w-14 h-14 text-[var(--accent)]" />
 				<div>
 					<h3 class="text-base font-semibold text-white">Перетащите видео или папку сюда</h3>
 					<p class="text-xs text-[var(--text-muted)] mt-1">
