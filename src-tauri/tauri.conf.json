@@ -19,7 +19,7 @@
         "center": true,
         "fullscreen": false,
         "decorations": true,
-        "backgroundColor": "#181A1F",
+        "backgroundColor": "#0F0F0F",
         "theme": "Dark"
       }
     ],

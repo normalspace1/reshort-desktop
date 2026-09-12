@@ -123,7 +123,7 @@ onUnmounted(() => {
 		<div
 			v-if="store.isDraggingFile"
 			class="fixed inset-0 z-50 flex items-center justify-center p-8 pointer-events-none"
-			style="background: rgba(5, 5, 5, 0.88); backdrop-filter: blur(12px)"
+			style="background: rgba(15, 15, 15, 0.88); backdrop-filter: blur(12px)"
 		>
 			<div
 				class="w-full max-w-lg aspect-video rounded-3xl flex flex-col items-center justify-center gap-4 text-center"
